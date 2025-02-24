@@ -4,14 +4,11 @@ Observer is a media library based on the websource from Aniworld and serienstrea
 
 ## Table of contents
 
-- [Überblick](#überblick)
-- [Technologien](#technologien)
-- [Installation](#installation)
-- [Nutzung](#nutzung)
-- [Features](#features)
-- [Mitwirken](#mitwirken)
-- [Lizenz](#lizenz)
-- [Kontakt](#kontakt)
+- [Überblick](#Overview)
+- [Technologien](#Technologies)
+- [Installation](#Installation-Production)
+- [Nutzung](#Installation-Dev-Environment)
+- [Licence](#Licence)
 
 ## Overview
 
@@ -24,7 +21,7 @@ Observer is a media library based of the aviable media of aniworld and serienstr
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 
-## Installation Production
+## Installation-Production
 
 ```bash
 # Clone project
@@ -43,7 +40,7 @@ npm run build
 npm run start
 ```
 
-## Installation Dev Environment
+## Installation-Dev-Environment
 
 ```bash
 # Clone project
@@ -57,3 +54,7 @@ npm install
 
 # Run the dev server
 npm run dev
+```
+
+## Licence
+This project is licensed under the MIT licence. Further information can be found in the [LICENSE](./LICENSE) file.
