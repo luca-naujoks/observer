@@ -1,0 +1,4 @@
+The following Assets are Legal:
+
+- icon.ico --> the application icon
+- wallpaper --> the used wallpaper
