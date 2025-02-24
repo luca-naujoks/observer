@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@layer base {
+  .tag {
+    @apply text-lg text-gray-300 font-semibold cursor-default rounded-md;
+  }
+
+  .text-headLine {
+    @apply text-3xl font-bold mb-4 cursor-default;
+  }
+
+  .secondHeaddline {
+    @apply text-xl text-gray-300 font-bold mb-2;
+  }
+  .disabledSecondHeaddline {
+    @apply text-xl font-bold text-gray-700 mb-2;
+  }
+
+  .inputField {
+    @apply w-full bg-transparent border-2 border-gray-500 p-1 pl-2 text-gray-500 outline-hidden rounded-md;
+  }
+  .no-text-cursor {
+    user-select: none;
+  }
+}
+
+@layer buttons {
+  .customButton {
+    @apply py-1 px-2 bg-gray-300/25 rounded-sm cursor-pointer;
+
+    &:hover {
+      @apply bg-gray-300/50;
+    }
+
+    &:disabled {
+      @apply text-gray-700 bg-transparent font-semibold py-1 px-2 cursor-default;
+    }
+  }
+}
+
+@layer components {
+  .descriptionCardRow {
+    @apply flex justify-between items-center h-fit w-full px-4 py-1 text-lg font-semibold bg-transparent text-gray-400 cursor-default;
+
+    span {
+      @apply text-right;
+    }
+  }
+
+  .lastDescriptionCardRow {
+    @apply flex justify-between items-center h-fit w-full px-4 py-1 text-lg font-semibold bg-transparent text-gray-400 cursor-default;
+  }
+
+  .setup-background {
+    background-image: url(https://placehold.co/300x500);
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 20px;
+    height: 20px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+    border: 3px solid #f6f7ed;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
+  }
+}
