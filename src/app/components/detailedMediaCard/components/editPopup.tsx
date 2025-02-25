@@ -74,6 +74,7 @@ export function EditPopup({
       setMedia(data);
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (

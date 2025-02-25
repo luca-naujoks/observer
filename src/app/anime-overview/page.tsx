@@ -21,6 +21,7 @@ export default function AnimeOverview() {
     
     collectRandomMedia();
     collectInitialMedia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function AnimeOverview() {
       collectInitialMedia();
       setPage(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   function collectRandomMedia() {

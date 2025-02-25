@@ -19,11 +19,13 @@ export default function Page() {
   useEffect(() => {
     getRandomLocalMedia();
     getLocalMedia(page, search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getRandomLocalMedia();
     getLocalMedia(0, search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedType]);
 
   useEffect(() => {
@@ -31,12 +33,14 @@ export default function Page() {
       setLoading(true);
       getMoreLocalMedia(page, search);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   useEffect(() => {
     if (loading) {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localMedia]);
 
   useEffect(() => {
@@ -69,6 +73,7 @@ export default function Page() {
 
   useEffect(() => {
     getLocalMedia(0, search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   const getRandomLocalMedia = async () => {

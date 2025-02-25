@@ -10,6 +10,7 @@ import { WatchOnButton } from "./components/watchbtn";
 import { InfoCard } from "./components/infoCard";
 import { SeasonContainer } from "./components/seasonContainer";
 import { useAppConfigContext } from "../../utils/appConfigContext";
+import Image from "next/image";
 
 export function DetailedMediaCard() {
   const router = useRouter();
@@ -35,8 +36,10 @@ export function DetailedMediaCard() {
     setMedia(data);
   };
 
+
   useEffect(() => {
     fetchMediaData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRequest = async () => {
@@ -91,89 +94,85 @@ export function DetailedMediaCard() {
   })();
 
   return (
-      <div className="flex flex-col w-full">
-        {editPopup ? (
-          <EditPopup selectedmedia={media} closePopup={handleEditClose} />
-        ) : null}
-        <div
-          id="backdrop"
-          className={`w-full h-1/2 bg-cover bg-center`}
-          style={{ backgroundImage: `url(${media.backdrop})` }}
-        >
-          <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50">
-            <img
-              src={media.poster}
-              alt=""
-              className="col-span-1 row-span-4 w-ful h-full rounded-xl"
-            />
-            <div className="flex items-start justify-end gap-4 m-4 col-span-4">
-              <span
-                className="h-10 w-10 cursor-pointer rounded-full"
-                onMouseEnter={() => setBackButtonHover(true)}
-                onMouseLeave={() => setBackButtonHover(false)}
-              >
-                {backButtonHover ? (
-                  <IoIosCloseCircle
-                    className="h-10 w-10"
-                    onClick={handleBack}
-                  />
-                ) : (
-                  <IoIosCloseCircleOutline
-                    className="h-10 w-10"
-                    onClick={handleBack}
-                  />
-                )}
-              </span>
-            </div>
-            <span className="col-span-4" />
-            <h1 className="flex items-end h-full col-span-4 pl-4 text-5xl font-bold">
-              {media?.name}
-            </h1>
-            <div className="flex justify-between col-span-4 pl-4">
-              <div className="flex flex-col justify-between h-full">
-                <div className="mt-2">
-                  <Tags tags={media.tags} />
-                </div>
-                <div className="">
-                  <WatchOnButton
-                    streamName={streamName}
-                    mediaType={media.type}
-                  />
-                </div>
-              </div>
-              <span className="flex items-end gap-4 mr-4">
-                <button className="customButton" onClick={handleEdit}>
-                  Edit Media
-                </button>
-                {StateButton}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div id="body" className="flex w-full h-fit mb-12 p-4 gap-4">
-          <div className="w-4/6 min-h-full">
-            <h1 className="text-2xl pb-1 font-semibold">Description</h1>
-            <p className="pr-32">{media.overview}</p>
-            <h1 className="text-2xl font-semibold pb-1 mt-12">Seasons</h1>
-            <div className="flex flex-col gap-4">
-              {media.seasons?.map((season) => (
-                <SeasonContainer
-                  season={season}
-                  localSeasons={
-                    media?.localSeasons?.find(
-                      (s) => s.season === season.season_number
-                    )?.episodes || []
-                  }
-                  tmdbID={media.tmdbID}
-                  key={season.id}
+    <div className="flex flex-col w-full">
+      {editPopup ? (
+        <EditPopup selectedmedia={media} closePopup={handleEditClose} />
+      ) : null}
+      <div
+        id="backdrop"
+        className={`w-full h-1/2 bg-cover bg-center`}
+        style={{ backgroundImage: `url(${media.backdrop})` }}
+      >
+        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50">
+          <Image src={media.poster} alt="" className="col-span-1 row-span-4 w-ful h-full rounded-xl" />
+          <div className="flex items-start justify-end gap-4 m-4 col-span-4">
+            <span
+              className="h-10 w-10 cursor-pointer rounded-full"
+              onMouseEnter={() => setBackButtonHover(true)}
+              onMouseLeave={() => setBackButtonHover(false)}
+            >
+              {backButtonHover ? (
+                <IoIosCloseCircle
+                  className="h-10 w-10"
+                  onClick={handleBack}
                 />
-              ))}
-            </div>
+              ) : (
+                <IoIosCloseCircleOutline
+                  className="h-10 w-10"
+                  onClick={handleBack}
+                />
+              )}
+            </span>
           </div>
-          <div className="w-2/6 h-fit px-12">
-            <InfoCard media={media} />
+          <span className="col-span-4" />
+          <h1 className="flex items-end h-full col-span-4 pl-4 text-5xl font-bold">
+            {media?.name}
+          </h1>
+          <div className="flex justify-between col-span-4 pl-4">
+            <div className="flex flex-col justify-between h-full">
+              <div className="mt-2">
+                <Tags tags={media.tags} />
+              </div>
+              <div className="">
+                <WatchOnButton
+                  streamName={streamName}
+                  mediaType={media.type}
+                />
+              </div>
+            </div>
+            <span className="flex items-end gap-4 mr-4">
+              <button className="customButton" onClick={handleEdit}>
+                Edit Media
+              </button>
+              {StateButton}
+            </span>
           </div>
         </div>
       </div>
+      <div id="body" className="flex w-full h-fit mb-12 p-4 gap-4">
+        <div className="w-4/6 min-h-full">
+          <h1 className="text-2xl pb-1 font-semibold">Description</h1>
+          <p className="pr-32">{media.overview}</p>
+          <h1 className="text-2xl font-semibold pb-1 mt-12">Seasons</h1>
+          <div className="flex flex-col gap-4">
+            {media.seasons?.map((season) => (
+              <SeasonContainer
+                season={season}
+                localSeasons={
+                  media?.localSeasons?.find(
+                    (s) => s.season === season.season_number
+                  )?.episodes || []
+                }
+                tmdbID={media.tmdbID}
+                key={season.id}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="w-2/6 h-fit px-12">
+          <InfoCard media={media} />
+        </div>
+      </div>
+    </div>
   );
 }

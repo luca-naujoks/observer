@@ -24,6 +24,7 @@ export default function SeriesOverview() {
     console.log(appConfig);
     collectRandomMedia();
     collectInitialMedia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -44,6 +45,7 @@ export default function SeriesOverview() {
       collectInitialMedia();
       setPage(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   function collectRandomMedia() {

@@ -7,7 +7,7 @@ import { useAppConfigContext } from "./utils/appConfigContext";
 
 export default function Overview() {
   const appConfig = useAppConfigContext();
-  
+
   const [trendingAnime, setTrendingAnime] = useState<IBackendMedia[]>([]);
   const [trendingSeries, setTrendingSeries] = useState<IBackendMedia[]>([]);
   const [selectedType, setSelectedType] = useState("anime");
@@ -33,6 +33,7 @@ export default function Overview() {
   useEffect(() => {
     getTrendingAnime();
     getTrendingSeries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function TypeSwitch() {
@@ -77,52 +78,52 @@ export default function Overview() {
 
   return (
     <ScrollToTop className="w-full h-full" >
-        <h1 className="text-headLine">Overview</h1>
+      <h1 className="text-headLine">Overview</h1>
+      <div
+        id="firstContainer"
+        className="grid grid-cols-7 grid-rows-2 gap-4 w-full h-3/5"
+      >
+        <BackdropMediaCard
+          media={getRightMedia(0)}
+          className="row-span-2 col-span-5"
+        />
+        <PosterMediaCard
+          media={getRightMedia(1)}
+          className="row-span-1 col-span-1"
+        />
+        <PosterMediaCard
+          media={getRightMedia(2)}
+          className="row-span-1 col-span-1"
+        />
+        <PosterMediaCard
+          media={getRightMedia(3)}
+          className="row-span-1 col-span-1"
+        />
+        <PosterMediaCard
+          media={getRightMedia(4)}
+          className="row-span-1 col-span-1"
+        />
+      </div>
+      <div id="secondContainer" className="w-full h-full">
+        <div className="flex justify-between my-2">
+          <TypeSwitch />
+        </div>
         <div
-          id="firstContainer"
-          className="grid grid-cols-7 grid-rows-2 gap-4 w-full h-3/5"
+          id="currentlyTrending"
+          className="h-full grid grid-cols-7 grid-rows-3 gap-4"
+          ref={containerRef}
         >
-          <BackdropMediaCard
-            media={getRightMedia(0)}
-            className="row-span-2 col-span-5"
-          />
-          <PosterMediaCard
-            media={getRightMedia(1)}
-            className="row-span-1 col-span-1"
-          />
-          <PosterMediaCard
-            media={getRightMedia(2)}
-            className="row-span-1 col-span-1"
-          />
-          <PosterMediaCard
-            media={getRightMedia(3)}
-            className="row-span-1 col-span-1"
-          />
-          <PosterMediaCard
-            media={getRightMedia(4)}
-            className="row-span-1 col-span-1"
-          />
+          {Array.from({ length: 16 }, (v, i) => i).map((index) => {
+            return (
+              <PosterMediaCard
+                key={index}
+                media={getRightMedia(index + 5)}
+                className="row-span-1 col-span-1"
+              />
+            );
+          })}
         </div>
-        <div id="secondContainer" className="w-full h-full">
-          <div className="flex justify-between my-2">
-            <TypeSwitch />
-          </div>
-          <div
-            id="currentlyTrending"
-            className="h-full grid grid-cols-7 grid-rows-3 gap-4"
-            ref={containerRef}
-          >
-            {Array.from({ length: 16 }, (v, i) => i).map((index) => {
-              return (
-                <PosterMediaCard
-                  key={index}
-                  media={getRightMedia(index + 5)}
-                  className="row-span-1 col-span-1"
-                />
-              );
-            })}
-          </div>
-        </div>
+      </div>
     </ScrollToTop>
   );
 }

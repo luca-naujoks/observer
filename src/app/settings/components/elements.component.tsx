@@ -106,6 +106,7 @@ export function SyncJobElement({
         console.error("Failed to fetch scheduled tasks");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

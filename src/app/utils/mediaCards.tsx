@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IBackendMedia, IShow, ItmdbSearch } from "../interfaces";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BorderContainer } from "./borderContainer";
+import Image from "next/image";
 
 export function BackdropMediaCard({
   media,
@@ -91,7 +92,7 @@ export function SearchMediaCard({
     return (
       <BorderContainer className="w-full h-36 bg-gray-500/25">
         <div className="flex items-center gap-4 w-full h-full rounded-md">
-          <img
+          <Image
             src={"https://image.tmdb.org/t/p/original" + media.poster_path}
             alt=""
             className="h-full rounded-md"

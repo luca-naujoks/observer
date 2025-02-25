@@ -9,7 +9,7 @@ import {
   SettingsContainer,
   SyncJobElement,
 } from "./components/elements.component";
-import { ISetupConfig, IScheduledTask } from "../interfaces";
+import { ISetupConfig } from "../interfaces";
 
 export default function Settings() {
   const appConfig = useAppConfigContext();
@@ -22,6 +22,7 @@ export default function Settings() {
     getBackendConfig().then((data) => {
       setBackendConfig(data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getBackendConfig() {
