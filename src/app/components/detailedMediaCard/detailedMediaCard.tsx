@@ -36,7 +36,6 @@ export function DetailedMediaCard() {
     setMedia(data);
   };
 
-
   useEffect(() => {
     fetchMediaData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,11 +99,15 @@ export function DetailedMediaCard() {
       ) : null}
       <div
         id="backdrop"
-        className={`w-full h-1/2 bg-cover bg-center`}
+        className={`w-full h-1/2 bg-cover bg-center rounded-t-md`}
         style={{ backgroundImage: `url(${media.backdrop})` }}
       >
         <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50">
-          <Image src={media.poster} alt="" className="col-span-1 row-span-4 w-ful h-full rounded-xl" />
+          <Image
+            src={media.poster}
+            alt=""
+            className="col-span-1 row-span-4 w-ful h-full rounded-xl"
+          />
           <div className="flex items-start justify-end gap-4 m-4 col-span-4">
             <span
               className="h-10 w-10 cursor-pointer rounded-full"
@@ -112,10 +115,7 @@ export function DetailedMediaCard() {
               onMouseLeave={() => setBackButtonHover(false)}
             >
               {backButtonHover ? (
-                <IoIosCloseCircle
-                  className="h-10 w-10"
-                  onClick={handleBack}
-                />
+                <IoIosCloseCircle className="h-10 w-10" onClick={handleBack} />
               ) : (
                 <IoIosCloseCircleOutline
                   className="h-10 w-10"
@@ -134,10 +134,7 @@ export function DetailedMediaCard() {
                 <Tags tags={media.tags} />
               </div>
               <div className="">
-                <WatchOnButton
-                  streamName={streamName}
-                  mediaType={media.type}
-                />
+                <WatchOnButton streamName={streamName} mediaType={media.type} />
               </div>
             </div>
             <span className="flex items-end gap-4 mr-4">

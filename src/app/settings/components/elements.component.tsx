@@ -58,11 +58,11 @@ export function InputElement({
 export function SyncJobElement({
   heading,
   className,
-  jobName,
+  taskName,
 }: {
   heading: string;
   className?: string;
-  jobName: string;
+  taskName: string;
 }) {
   const appConfig = useAppConfigContext();
 
@@ -81,7 +81,7 @@ export function SyncJobElement({
 
   async function runJobNow() {
     const url =
-      appConfig.backend_url + "/schedules/run-task-now?jobName=" + jobName;
+      appConfig.backend_url + "/schedules/run-task-now?taskName=" + taskName;
     await fetch(url, {
       method: "POST",
       headers: {
@@ -91,7 +91,7 @@ export function SyncJobElement({
   }
 
   useEffect(() => {
-    fetch(appConfig.backend_url + `/schedules/task?jobName=${jobName}`, {
+    fetch(appConfig.backend_url + `/schedules/task?taskName=${taskName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

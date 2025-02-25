@@ -150,6 +150,6 @@ export interface ISetupConfig {
 }
 
 export interface IScheduledTask {
-  jobName: string;
+  taskName: string;
   schedule: string;
 }

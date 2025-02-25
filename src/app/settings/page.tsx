@@ -69,15 +69,15 @@ export default function Settings() {
         <SettingsContainer title="Synchronization Jobs">
           <SyncJobElement
             heading="Scan for new media in local library"
-            jobName="default-local-scanner"
+            taskName="default-local-scanner"
           />
           <SyncJobElement
             heading="Scan for new online Media"
-            jobName="default-scan-for-new-media"
+            taskName="default-scan-for-new-media"
           />
           <SyncJobElement
             heading="Scan for new Episodes & Seasons of local media"
-            jobName="default-scan-for-new-episodes"
+            taskName="default-scan-for-new-episodes"
           />
           <ButtonElement
             className="items-end"
