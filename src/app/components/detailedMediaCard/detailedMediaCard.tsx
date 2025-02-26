@@ -93,21 +93,29 @@ export function DetailedMediaCard() {
   })();
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col">
       {editPopup ? (
         <EditPopup selectedmedia={media} closePopup={handleEditClose} />
       ) : null}
       <div
         id="backdrop"
-        className={`w-full h-1/2 bg-cover bg-center rounded-t-md`}
+        className={`w-full bg-cover bg-center rounded-t-md`}
         style={{ backgroundImage: `url(${media.backdrop})` }}
       >
-        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50">
-          <Image
-            src={media.poster}
-            alt=""
-            className="col-span-1 row-span-4 w-ful h-full rounded-xl"
-          />
+        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50 rounded-t-md">
+          {media.poster ? (
+            <div className="flex justify-center col-span-1 row-span-4">
+              <Image
+                src={media.poster}
+                alt=""
+                width={440}
+                height={660}
+                className="rounded-xl"
+              />
+            </div>
+          ) : (
+            <div className="bg-gray-900/25" />
+          )}
           <div className="flex items-start justify-end gap-4 m-4 col-span-4">
             <span
               className="h-10 w-10 cursor-pointer rounded-full"
@@ -137,16 +145,20 @@ export function DetailedMediaCard() {
                 <WatchOnButton streamName={streamName} mediaType={media.type} />
               </div>
             </div>
-            <span className="flex items-end gap-4 mr-4">
-              <button className="customButton" onClick={handleEdit}>
-                Edit Media
-              </button>
-              {StateButton}
-            </span>
+            <div className="flex flex-col items-end justify-end gap-4 mr-4">
+              <button className="customButton">Add to Watchlist</button>
+
+              <div className="flex gap-4">
+                <button className="customButton" onClick={handleEdit}>
+                  Edit Media
+                </button>
+                {StateButton}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div id="body" className="flex w-full h-fit mb-12 p-4 gap-4">
+      <div id="body" className="flex w-full h-fit my-12 gap-4">
         <div className="w-4/6 min-h-full">
           <h1 className="text-2xl pb-1 font-semibold">Description</h1>
           <p className="pr-32">{media.overview}</p>
@@ -166,7 +178,7 @@ export function DetailedMediaCard() {
             ))}
           </div>
         </div>
-        <div className="w-2/6 h-fit px-12">
+        <div className="-translate-y-8 w-2/6 h-fit pl-12">
           <InfoCard media={media} />
         </div>
       </div>
