@@ -2,12 +2,14 @@
 import * as fs from "fs";
 import { IAppConfig } from "../interfaces";
 
+const appConfigPath = "config/appConfig.json"
+
 export async function checkConfig() {
   if (!fs.existsSync("config")) {
     fs.mkdirSync("config");
   }
 
-  if (!fs.existsSync("config/settings.json")) {
+  if (!fs.existsSync(appConfigPath)) {
     const defaultConfig: IAppConfig = {
       configured: false,
       backend_url: "http://localhost:3000",
@@ -17,7 +19,7 @@ export async function checkConfig() {
     };
 
     fs.writeFileSync(
-      "config/settings.json",
+      appConfigPath,
       JSON.stringify(defaultConfig, null, 2)
     );
   }
@@ -35,7 +37,7 @@ export async function getConfiguration(): Promise<IAppConfig> {
   // Check if the configuration file exists else create it
   await checkConfig();
 
-  const config = JSON.parse(fs.readFileSync("config/settings.json", "utf-8"));
+  const config = JSON.parse(fs.readFileSync(appConfigPath, "utf-8"));
   return await config;
 }
 
@@ -57,7 +59,7 @@ export async function updateConfiguration(config: IAppConfig) {
 
   await checkConfig();
   fs.writeFileSync(
-    "config/settings.json",
+    appConfigPath,
     JSON.stringify(configuration, null, 2)
   );
 }
