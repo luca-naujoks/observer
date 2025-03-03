@@ -1,0 +1,7 @@
+{
+  "configured": true,
+  "backend_url": "http://localhost:3001",
+  "appVersion": "0.2.5",
+  "appName": "AniSquid Observer",
+  "background_image": false
+}

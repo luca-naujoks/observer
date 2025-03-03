@@ -15,10 +15,10 @@ export default function AnimeOverview() {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if(page > 1000) {
+    if (page > 1000) {
       collectMoreMedia();
     }
-    
+
     collectRandomMedia();
     collectInitialMedia();
     // eslint-disable-next-line react-hooks/exhaustive-deps
