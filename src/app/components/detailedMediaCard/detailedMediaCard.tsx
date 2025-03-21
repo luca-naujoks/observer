@@ -8,7 +8,6 @@ import { EditPopup } from "./components/editPopup";
 import { Tags } from "./components/tags";
 import { WatchOnButton } from "./components/watchbtn";
 import { InfoCard } from "./components/infoCard";
-import { SeasonContainer } from "./components/seasonContainer";
 import { useAppConfigContext } from "../../utils/appConfigContext";
 import Image from "next/image";
 
@@ -41,24 +40,6 @@ export function DetailedMediaCard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleRequest = async () => {
-    const response = await fetch(
-      `${appConfig.backend_url}/rabbit?stream_name=${media.stream_name}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const data = await response.json();
-
-    if (data.status === 200) {
-      setMedia({ ...media, state: "requested" });
-    }
-  };
-
   const handleBack = () => {
     router.back();
   };
@@ -71,26 +52,6 @@ export function DetailedMediaCard() {
     setEditPopup(false);
     fetchMediaData();
   };
-
-  const StateButton = (() => {
-    switch (media.state) {
-      case "requested":
-        return <button className="customButton">Requested</button>;
-      case "downloading":
-        return <button className="customButton">Available</button>;
-      case "partiallyAvailable":
-        return <button className="customButton">Available</button>;
-      case "available":
-        return <button className="customButton">Available</button>;
-
-      default:
-        return (
-          <button onClick={handleRequest} className="customButton">
-            Request Download
-          </button>
-        );
-    }
-  })();
   return (
     <div className="flex flex-col">
       {editPopup ? (
@@ -156,7 +117,6 @@ export function DetailedMediaCard() {
                 <button className="customButton" onClick={handleEdit}>
                   Edit Media
                 </button>
-                {StateButton}
               </div>
             </div>
           </div>
