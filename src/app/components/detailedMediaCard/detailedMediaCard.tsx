@@ -15,7 +15,7 @@ import Image from "next/image";
 export function DetailedMediaCard() {
   const router = useRouter();
   const appConfig = useAppConfigContext();
-  const streamName = useSearchParams().get("streamName") || "";
+  const stream_name = useSearchParams().get("stream_name") || "";
 
   const [media, setMedia] = useState<IShow>({} as IShow);
   const [backButtonHover, setBackButtonHover] = useState(false);
@@ -24,7 +24,7 @@ export function DetailedMediaCard() {
 
   const fetchMediaData = async () => {
     const response = await fetch(
-      `${appConfig.backend_url}/detailed-media?streamName=${streamName}`,
+      `${appConfig.backend_url}/detailed-media?stream_name=${stream_name}`,
       {
         method: "GET",
         headers: {
@@ -43,7 +43,7 @@ export function DetailedMediaCard() {
 
   const handleRequest = async () => {
     const response = await fetch(
-      `${appConfig.backend_url}/rabbit?streamName=${media.streamName}`,
+      `${appConfig.backend_url}/rabbit?stream_name=${media.stream_name}`,
       {
         method: "PUT",
         headers: {
@@ -91,7 +91,6 @@ export function DetailedMediaCard() {
         );
     }
   })();
-
   return (
     <div className="flex flex-col">
       {editPopup ? (
@@ -99,10 +98,12 @@ export function DetailedMediaCard() {
       ) : null}
       <div
         id="backdrop"
-        className={`w-full bg-cover bg-center rounded-t-md`}
-        style={{ backgroundImage: `url(${media.backdrop})` }}
+        className={`w-full bg-cover bg-center bg-gray-900/25 rounded-t-md`}
+        style={
+          media.backdrop ? { backgroundImage: `url(${media.backdrop})` } : {}
+        }
       >
-        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/50 rounded-t-md">
+        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/25 rounded-t-md">
           {media.poster ? (
             <div className="flex justify-center col-span-1 row-span-4">
               <Image
@@ -114,7 +115,7 @@ export function DetailedMediaCard() {
               />
             </div>
           ) : (
-            <div className="bg-gray-900/25" />
+            <div className="flex justify-center col-span-1 row-span-4 bg-gray-900/50" />
           )}
           <div className="flex items-start justify-end gap-4 m-4 col-span-4">
             <span
@@ -142,7 +143,10 @@ export function DetailedMediaCard() {
                 <Tags tags={media.tags} />
               </div>
               <div className="">
-                <WatchOnButton streamName={streamName} mediaType={media.type} />
+                <WatchOnButton
+                  stream_name={stream_name}
+                  mediaType={media.type}
+                />
               </div>
             </div>
             <div className="flex flex-col items-end justify-end gap-4 mr-4">
@@ -163,20 +167,7 @@ export function DetailedMediaCard() {
           <h1 className="text-2xl pb-1 font-semibold">Description</h1>
           <p className="pr-32">{media.overview}</p>
           <h1 className="text-2xl font-semibold pb-1 mt-12">Seasons</h1>
-          <div className="flex flex-col gap-4">
-            {media.seasons?.map((season) => (
-              <SeasonContainer
-                season={season}
-                localSeasons={
-                  media?.localSeasons?.find(
-                    (s) => s.season === season.season_number
-                  )?.episodes || []
-                }
-                tmdbID={media.tmdbID}
-                key={season.id}
-              />
-            ))}
-          </div>
+          <div className="flex flex-col gap-4"></div>
         </div>
         <div className="-translate-y-8 w-2/6 h-fit pl-12">
           <InfoCard media={media} />

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { IBackendMedia } from "../interfaces";
+import { IMedia } from "../interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { ScrollToTop } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
@@ -10,8 +10,8 @@ export default function Page() {
   const appConfig = useAppConfigContext();
 
   const [selectedType, setSelectedType] = useState<string>("anime");
-  const [randomLoclMedia, setRandomLocalMedia] = useState<IBackendMedia[]>([]);
-  const [localMedia, setLocalMedia] = useState<IBackendMedia[]>([]);
+  const [randomLoclMedia, setRandomLocalMedia] = useState<IMedia[]>([]);
+  const [localMedia, setLocalMedia] = useState<IMedia[]>([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -77,11 +77,9 @@ export default function Page() {
   }, [search]);
 
   const getRandomLocalMedia = async () => {
-    fetch(
-      `${appConfig.backend_url}/random/local?amount=5&type=${selectedType}`
-    )
+    fetch(`${appConfig.backend_url}/random/local?amount=5&type=${selectedType}`)
       .then((response) => response.json())
-      .then((data: IBackendMedia[]) => {
+      .then((data: IMedia[]) => {
         setRandomLocalMedia(data);
       });
   };
@@ -97,9 +95,7 @@ export default function Page() {
   };
 
   const getMoreLocalMedia = async (page: number, search: string) => {
-    fetch(
-      `${appConfig.backend_url}/local/shows?page=${page}&search=${search}`
-    )
+    fetch(`${appConfig.backend_url}/local/shows?page=${page}&search=${search}`)
       .then((response) => response.json())
       .then((data) => {
         setLocalMedia(localMedia.concat(data));
@@ -140,8 +136,8 @@ export default function Page() {
   return (
     <ScrollToTop className="w-full h-full">
       <div className="flex justify-between">
-      <h1 className="text-headLine">Locally Available</h1>
-      <SearchBar setSearch={setSearch} />
+        <h1 className="text-headLine">Locally Available</h1>
+        <SearchBar setSearch={setSearch} />
       </div>
       <div
         id="firstContainer"
@@ -174,7 +170,7 @@ export default function Page() {
         </div>
         <div
           id="currentlyTrending"
-          className="h-full grid grid-cols-7 grid-rows-3 gap-4"
+          className="h-full grid grid-cols-5 grid-rows-3 gap-4"
         >
           {localMedia.map((media, index) => (
             <PosterMediaCard key={index} media={media} />

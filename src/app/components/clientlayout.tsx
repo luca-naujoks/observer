@@ -40,7 +40,7 @@ export default function ClientLayout({
     <div className="flex w-screen h-screen  bg-gray-900/75">
       <div
         id="sidepanel"
-        className="fixed flex flex-col items-center h-full w-[10%] border-gray-500 border-r-2 p-4"
+        className="fixed flex flex-col items-center h-full w-[15%] 2xl:w-[10%] border-gray-500 border-r-2 p-4"
       >
         <span id="programmName">
           <h1
@@ -63,8 +63,8 @@ export default function ClientLayout({
           />
         </div>
       </div>
-      <div className="w-[10%]" />
-      <div className="w-[90%] p-4 overflow-y-auto [&::-webkit-scrollbar]:w-0">
+      <div className="w-[15%] 2xl:w-[10%]" />
+      <div className="w-[85%] 2xl:w-[90%] p-4 overflow-y-auto [&::-webkit-scrollbar]:w-0">
         <AppConfigContext.Provider value={appConfig}>
           {children}
         </AppConfigContext.Provider>

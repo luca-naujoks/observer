@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 export function WatchOnButton({
-  streamName,
+  stream_name,
   mediaType,
 }: {
-  streamName: string;
+  stream_name: string;
   mediaType: string;
 }) {
   switch (mediaType) {
@@ -19,7 +19,7 @@ export function WatchOnButton({
           className="h-10 hover:scale-105 cursor-pointer transition-transform ease-in-out duration-300 rounded-md"
           onClick={() =>
             window.open(
-              `https://aniworld.to/anime/stream/${streamName}`,
+              `https://aniworld.to/anime/stream/${stream_name}`,
               "_blank"
             )
           }
@@ -34,7 +34,7 @@ export function WatchOnButton({
           height={50}
           className="h-10 hover:scale-105 cursor-pointer transition-transform ease-in-out duration-300 rounded-md"
           onClick={() =>
-            window.open(`https://s.to/serie/stream/${streamName}`, "_blank")
+            window.open(`https://s.to/serie/stream/${stream_name}`, "_blank")
           }
         />
       );

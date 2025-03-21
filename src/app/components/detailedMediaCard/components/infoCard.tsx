@@ -37,15 +37,9 @@ export function InfoCard({ media }: { media: IShow }) {
         <h1>Episodes</h1>
         <span>{media.number_of_episodes}</span>
       </div>
-      <div className="descriptionCardRow border-gray-500 border-b">
+      <div className="descriptionCardRow">
         <h1>Production</h1>
         <span>{media.production_country}</span>
-      </div>
-      <div className="lastDescriptionCardRow rounded-b-md">
-        <h1>Needs Attention</h1>
-        <span className={media.hasErrors ? "text-red-800" : "text-green-800"}>
-          {media.hasErrors ? "true" : "false"}
-        </span>
       </div>
     </div>
   );

@@ -20,18 +20,18 @@ export function EditPopup({
   const [loading, setLoading] = useState(false);
   const [media, setMedia] = useState<ItmdbSearch[]>([]);
 
-  async function updateMedia(streamName: string, tmdbId: number) {
+  async function updateMedia(stream_name: string, tmdb_id: number) {
     setLoading(true);
     await fetch(
       appConfig.backend_url +
-        `/detailed-media/update-tmdb?streamName=${streamName}&tmdbID=${tmdbId}`,
+        `/detailed-media/update-tmdb?stream_name=${stream_name}&tmdb_id=${tmdb_id}`,
       {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
       }
-    ).then(() => console.log(streamName, tmdbId));
+    ).then(() => console.log(stream_name, tmdb_id));
     setLoading(false);
     setMedia([]);
     closePopup();

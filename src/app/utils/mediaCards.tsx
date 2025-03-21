@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IBackendMedia, IShow, ItmdbSearch } from "../interfaces";
+import { IMedia, IShow, ItmdbSearch } from "../interfaces";
 import { useRouter, useSearchParams } from "next/navigation";
 import { BorderContainer } from "./borderContainer";
 import Image from "next/image";
@@ -8,7 +8,7 @@ export function BackdropMediaCard({
   media,
   className,
 }: {
-  media: IBackendMedia;
+  media: IMedia;
   className?: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -18,15 +18,15 @@ export function BackdropMediaCard({
   if (media) {
     return (
       <div
-        className={className + ` bg-cover bg-center rounded-md`}
+        className={className + ` bg-cover bg-center rounded-md bg-gray-900/50`}
         style={{ backgroundImage: `url(${media.backdrop})` }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/media?streamName=${media.streamName}`)}
+        onClick={() => router.push(`/media?stream_name=${media.stream_name}`)}
       >
         <div
           className={`${
-            isHovered ? "h-full w-full p-4 bg-gray-900/50" : "hidden"
+            isHovered ? "h-full w-full p-4 bg-gray-900/50 rounded-md" : "hidden"
           }`}
         >
           <h1 className="text-3xl font-bold">{media.name}</h1>
@@ -45,7 +45,7 @@ export function PosterMediaCard({
   media,
   className,
 }: {
-  media: IBackendMedia;
+  media: IMedia;
   className?: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -54,15 +54,15 @@ export function PosterMediaCard({
   if (media) {
     return (
       <div
-        className={className + ` bg-cover bg-center rounded-md`}
+        className={className + ` bg-cover bg-center rounded-md bg-gray-900/50`}
         style={{ backgroundImage: `url(${media?.poster})` }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/media?streamName=${media.streamName}`)}
+        onClick={() => router.push(`/media?stream_name=${media.stream_name}`)}
       >
         <div
           className={`${
-            isHovered ? "h-full w-full p-4 bg-gray-900/50" : "hidden"
+            isHovered ? "h-full w-full p-4 bg-gray-900/50 rounded-md" : "hidden"
           }`}
         >
           <h1 className="text-3xl font-bold">{media?.name}</h1>
@@ -84,11 +84,11 @@ export function SearchMediaCard({
 }: {
   selectedmedia: IShow;
   media: ItmdbSearch;
-  updateMedia: (streamName: string, tmdbId: number) => void;
+  updateMedia: (stream_name: string, tmdb_id: number) => void;
 }) {
-  const streamName = useSearchParams().get("streamName") || "";
+  const stream_name = useSearchParams().get("stream_name") || "";
 
-  if(media) {
+  if (media) {
     return (
       <BorderContainer className="w-full h-36 bg-gray-500/25">
         <div className="flex items-center gap-4 w-full h-full rounded-md">
@@ -107,9 +107,9 @@ export function SearchMediaCard({
               </p>
               <button
                 className={
-                  selectedmedia.tmdbID === media.id ? "hidden" : "customButton"
+                  selectedmedia.tmdb_id === media.id ? "hidden" : "customButton"
                 }
-                onClick={() => updateMedia(streamName, media.id)}
+                onClick={() => updateMedia(stream_name, media.id)}
               >
                 Select This Medium
               </button>

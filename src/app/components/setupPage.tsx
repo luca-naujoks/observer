@@ -77,6 +77,7 @@ export default function SetupPage() {
       TMDB_API_KEY: tmdbApiKey.value,
       LOCAL_ANIME_PATH: localAnimeDir.value,
       LOCAL_SERIES_PATH: localSeriesDir.value,
+      PAGE_SIZE: 100,
     };
 
     fetch(`${backendURL.value}/setup/configure`, {

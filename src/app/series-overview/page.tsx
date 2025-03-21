@@ -1,24 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IBackendMedia } from "../interfaces";
+import { IMedia } from "../interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { SearchBar } from "../utils/searchBar";
 import { ScrollToTop } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
 
 export default function SeriesOverview() {
-
   const appConfig = useAppConfigContext();
 
-  const [randomMediaMix, setRandomMediaMix] = useState<IBackendMedia[]>([]); // Store 5 random media items
-  const [mediaList, setMediaList] = useState<IBackendMedia[]>([]); // Store all media items
+  const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
+  const [mediaList, setMediaList] = useState<IMedia[]>([]); // Store all media items
   const [page, setPage] = useState(0);
 
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    if(page > 1000) {
+    if (page > 1000) {
       collectMoreMedia();
     }
     console.log(appConfig);
@@ -29,9 +28,7 @@ export default function SeriesOverview() {
 
   useEffect(() => {
     function collectSearchResults() {
-      fetch(
-        `${appConfig.backend_url}/media/series?search=${search}`
-      )
+      fetch(`${appConfig.backend_url}/media/series?search=${search}`)
         .then((response) => response.json())
         .then((data) => {
           setMediaList(data);
@@ -51,7 +48,7 @@ export default function SeriesOverview() {
   function collectRandomMedia() {
     fetch(`${appConfig.backend_url}/random/series?amount=5`)
       .then((response) => response.json())
-      .then((data: IBackendMedia[]) => {
+      .then((data: IMedia[]) => {
         setRandomMediaMix(data);
       });
   }
@@ -65,9 +62,7 @@ export default function SeriesOverview() {
   }
 
   function collectMoreMedia() {
-    fetch(
-      `${appConfig.backend_url}/media/series?&page=${page + 1}`
-    )
+    fetch(`${appConfig.backend_url}/media/series?&page=${page + 1}`)
       .then((response) => response.json())
       .then((data) => {
         setMediaList([...mediaList, ...data]);
@@ -106,7 +101,7 @@ export default function SeriesOverview() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div id="seriesContainer" className="grid grid-cols-7 gap-4">
+      <div id="seriesContainer" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
           <PosterMediaCard key={index} media={media} className="h-96" />
         ))}

@@ -43,7 +43,7 @@ export default function Settings() {
 
   return (
     <div>
-      <h1 className="text-headLine mb-26 ml-4">Settings</h1>
+      <h1 className="text-headLine mb-4 ml-4">Settings</h1>
       <div className="grid grid-cols-2 w-full gap-4">
         <SettingsContainer title="Frontend Configuration">
           <InputElement
@@ -78,6 +78,10 @@ export default function Settings() {
           <SyncJobElement
             heading="Scan for new Episodes & Seasons of local media"
             taskName="default-scan-for-new-episodes"
+          />
+          <SyncJobElement
+            heading="Scan for currently trending media"
+            taskName="trending-media"
           />
           <ButtonElement
             className="items-end"
@@ -121,6 +125,12 @@ export default function Settings() {
             heading="Series Directory"
             placeholder="Enter Series Directory"
             value={backendConfig?.LOCAL_SERIES_PATH || ""}
+            setValue={() => console.log("test")}
+          />
+          <InputElement
+            heading="Page Size"
+            placeholder="Page Size"
+            value={backendConfig?.PAGE_SIZE || 100}
             setValue={() => console.log("test")}
           />
           <ButtonElement
