@@ -38,8 +38,8 @@ export function InputElement({
   className?: string;
   disabled?: boolean;
   placeholder: string;
-  value: string;
-  setValue: (value: string) => void;
+  value: string | number;
+  setValue: (value: string | number) => void;
 }) {
   return (
     <div className={`flex flex-col text-gray-500 mb-4 ${className}`}>
@@ -103,7 +103,7 @@ export function SyncJobElement({
           setCurrentSchedule(data.schedule);
         });
       } else {
-        console.error("Failed to fetch scheduled tasks");
+        console.log(`Failed to fetch scheduled tasks for ${taskName}`);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,11 +116,11 @@ export function SyncJobElement({
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="inputField"
+          className="inputField focus:text-white"
         />
         <button
           onClick={currentSchedule === value ? runJobNow : updateJob}
-          className="customButton w-24"
+          className="customButton w-28"
         >
           {currentSchedule === value ? "Run Now" : "Save"}
         </button>
@@ -216,7 +216,7 @@ export function SettingsContainer({
   title: string;
 }) {
   return (
-    <div className="flex flex-col w-4/5 mb-12 bg-gray-500/12 p-4 rounded-md">
+    <div className="flex flex-col w-4/5 mb-4 bg-gray-500/12 p-4 rounded-md">
       <h1 className="secondHeaddline">{title}</h1>
       {children}
     </div>

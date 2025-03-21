@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { IBackendMedia } from "../interfaces";
+import { IMedia } from "../interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { SearchBar } from "../utils/searchBar";
 import { ScrollToTop } from "../components/scrollToRef";
@@ -9,8 +9,8 @@ import { useAppConfigContext } from "../utils/appConfigContext";
 export default function AnimeOverview() {
   const appConfig = useAppConfigContext();
 
-  const [randomMediaMix, setRandomMediaMix] = useState<IBackendMedia[]>([]); // Store 5 random media items
-  const [mediaList, setMediaList] = useState<IBackendMedia[]>([]); // Store all media items
+  const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
+  const [mediaList, setMediaList] = useState<IMedia[]>([]); // Store all media items
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
 
@@ -46,7 +46,7 @@ export default function AnimeOverview() {
   function collectRandomMedia() {
     fetch(`${appConfig.backend_url}/random/animes?amount=5`)
       .then((response) => response.json())
-      .then((data: IBackendMedia[]) => {
+      .then((data: IMedia[]) => {
         setRandomMediaMix(data);
       });
   }
@@ -99,7 +99,7 @@ export default function AnimeOverview() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div id="currentlyTrending" className="grid grid-cols-7 gap-4">
+      <div id="currentlyTrending" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
           <PosterMediaCard key={index} media={media} className="h-96" />
         ))}

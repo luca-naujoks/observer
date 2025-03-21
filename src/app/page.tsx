@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { IBackendMedia } from "./interfaces";
+import { IMedia } from "./interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "./utils/mediaCards";
 import { ScrollToTop } from "./components/scrollToRef";
 import { useAppConfigContext } from "./utils/appConfigContext";
@@ -8,8 +8,8 @@ import { useAppConfigContext } from "./utils/appConfigContext";
 export default function Overview() {
   const appConfig = useAppConfigContext();
 
-  const [trendingAnime, setTrendingAnime] = useState<IBackendMedia[]>([]);
-  const [trendingSeries, setTrendingSeries] = useState<IBackendMedia[]>([]);
+  const [trendingAnime, setTrendingAnime] = useState<IMedia[]>([]);
+  const [trendingSeries, setTrendingSeries] = useState<IMedia[]>([]);
   const [selectedType, setSelectedType] = useState("anime");
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -77,7 +77,7 @@ export default function Overview() {
   }
 
   return (
-    <ScrollToTop className="w-full h-full" >
+    <ScrollToTop className="w-full h-full">
       <h1 className="text-headLine">Overview</h1>
       <div
         id="firstContainer"
@@ -110,7 +110,7 @@ export default function Overview() {
         </div>
         <div
           id="currentlyTrending"
-          className="h-full grid grid-cols-7 grid-rows-3 gap-4"
+          className="h-full grid grid-cols-5 grid-rows-3 gap-4"
           ref={containerRef}
         >
           {Array.from({ length: 16 }, (v, i) => i).map((index) => {

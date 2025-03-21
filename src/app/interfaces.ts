@@ -1,21 +1,12 @@
 export interface IShow {
   type: string;
-  tmdbID: number;
-  streamName: string;
+  tmdb_id: number;
+  stream_name: string;
   name: string;
   tags: { id: number; name: string }[];
   poster: string;
   backdrop: string;
-  localSeasons?: {
-    season: number;
-    episodes: number[];
-  }[];
-  onlineSeasons?: {
-    season: number;
-    episodes: number[];
-  }[];
-  state: string;
-  hasErrors: boolean;
+  localSeasons?: ILocalSeason[];
 
   vote_average: number;
   original_name: string;
@@ -29,17 +20,20 @@ export interface IShow {
   seasons: ItmdbSeasonObject[];
 }
 
-export interface IBackendMedia {
+interface ILocalSeason {
+  season: number;
+  episode: number;
+  attention: boolean;
+}
+
+export interface IMedia {
   type: string;
-  tmdbID: number;
-  streamName: string;
+  tmdb_id: number;
+  stream_name: string;
   name: string;
   tags: string[];
   poster: string;
   backdrop: string;
-  localSeasons?: { [season: number]: number[] };
-  onlineSeasons?: { [season: number]: number[] };
-  hasErrors: boolean;
 }
 
 export interface ItmdbSearch {
@@ -147,6 +141,7 @@ export interface ISetupConfig {
   TMDB_API_KEY: string;
   LOCAL_ANIME_PATH: string;
   LOCAL_SERIES_PATH: string;
+  PAGE_SIZE: number;
 }
 
 export interface IScheduledTask {
