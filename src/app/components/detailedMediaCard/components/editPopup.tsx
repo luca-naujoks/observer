@@ -78,12 +78,12 @@ export function EditPopup({
   }, [search]);
 
   return (
-    <div className="fixed inset-0">
+    <div className="fixed inset-0 z-50">
       <div className="flex items-center justify-center w-screen h-screen bg-black/25">
         <div
           id="EditPopup"
           ref={popupRef}
-          className="w-1/3 h-2/3 bg-gray-900/95 border-gray-500 border rounded-lg"
+          className="w-1/2 h-2/3 bg-gray-900 border-gray-500 border rounded-lg"
         >
           <div id="searchBar" className="flex h-[7%] my-4 px-4 rounded-t-lg">
             <SearchBar

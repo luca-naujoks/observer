@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { IMedia } from "./interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "./utils/mediaCards";
-import { ScrollToTop } from "./components/scrollToRef";
+import { ScrollContainer } from "./components/scrollToRef";
 import { useAppConfigContext } from "./utils/appConfigContext";
 
 export default function Overview() {
@@ -27,6 +27,7 @@ export default function Overview() {
       .then((response) => response.json())
       .then((data) => {
         setTrendingSeries(data);
+        console.log(data);
       });
   };
 
@@ -77,7 +78,7 @@ export default function Overview() {
   }
 
   return (
-    <ScrollToTop className="w-full h-full">
+    <ScrollContainer className="w-full h-full">
       <h1 className="text-headLine">Overview</h1>
       <div
         id="firstContainer"
@@ -124,6 +125,6 @@ export default function Overview() {
           })}
         </div>
       </div>
-    </ScrollToTop>
+    </ScrollContainer>
   );
 }

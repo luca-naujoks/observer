@@ -64,9 +64,9 @@ export function DetailedMediaCard() {
           media.backdrop ? { backgroundImage: `url(${media.backdrop})` } : {}
         }
       >
-        <div className="grid grid-cols-5 grid-rows-4 h-full p-4 bg-gray-900/25 rounded-t-md">
+        <div className="grid grid-cols-6 grid-rows-4 h-full p-4 bg-gray-900/25 rounded-t-md">
           {media.poster ? (
-            <div className="flex justify-center col-span-1 row-span-4">
+            <div className="flex justify-start col-span-2 row-span-4">
               <Image
                 src={media.poster}
                 alt=""
@@ -125,11 +125,11 @@ export function DetailedMediaCard() {
       <div id="body" className="flex w-full h-fit my-12 gap-4">
         <div className="w-4/6 min-h-full">
           <h1 className="text-2xl pb-1 font-semibold">Description</h1>
-          <p className="pr-32">{media.overview}</p>
+          <p className="pr-8">{media.overview}</p>
           <h1 className="text-2xl font-semibold pb-1 mt-12">Seasons</h1>
           <div className="flex flex-col gap-4"></div>
         </div>
-        <div className="-translate-y-8 w-2/6 h-fit pl-12">
+        <div className="-translate-y-8 w-3/6 h-fit">
           <InfoCard media={media} />
         </div>
       </div>

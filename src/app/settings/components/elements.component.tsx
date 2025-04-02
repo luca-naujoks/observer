@@ -32,21 +32,22 @@ export function InputElement({
   disabled,
   placeholder,
   value,
-  setValue,
 }: {
   heading: string;
   className?: string;
   disabled?: boolean;
   placeholder: string;
   value: string | number;
-  setValue: (value: string | number) => void;
 }) {
+  const [inputValue, setInputValue] = useState(value);
+
   return (
     <div className={`flex flex-col text-gray-500 mb-4 ${className}`}>
       <h1 className="text-lg mb-2">{heading}</h1>
       <input
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        id={heading}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
         placeholder={placeholder}
         disabled={disabled}
         className="inputField"
@@ -186,24 +187,27 @@ export function ImageUploadElement({ className }: { className?: string }) {
   }
 
   return (
-    <div className={`flex gap-4 mb-4 ${className}`}>
-      <input
-        ref={uploadInput}
-        className="inputField"
-        type="file"
-        id="wallpaperUpload"
-        accept=".jpg, .png"
-        onChange={(e) => handleImageChange(e.target)}
-      />
-      <button
-        className={`customButton w-24`}
-        disabled={file == null && !appConfig.background_image}
-        onClick={
-          uploadOrRemove == "Upload" ? handleImageUpload : handleImageRemove
-        }
-      >
-        {uploadOrRemove == "Upload" ? "Upload" : "Remove"}
-      </button>
+    <div className={`flex flex-col mb-4 ${className}`}>
+      <h1 className="text-lg text-gray-500 mb-2">Wallpaper Upload</h1>
+      <div className="flex gap-4">
+        <input
+          ref={uploadInput}
+          className="inputField"
+          type="file"
+          id="wallpaperUpload"
+          accept=".jpg, .png"
+          onChange={(e) => handleImageChange(e.target)}
+        />
+        <button
+          className={`customButton w-24`}
+          disabled={file == null && !appConfig.background_image}
+          onClick={
+            uploadOrRemove == "Upload" ? handleImageUpload : handleImageRemove
+          }
+        >
+          {uploadOrRemove == "Upload" ? "Upload" : "Remove"}
+        </button>
+      </div>
     </div>
   );
 }

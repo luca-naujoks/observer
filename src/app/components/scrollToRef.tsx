@@ -2,15 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export function ScrollToTop({
+export function ScrollContainer({
   children,
   className,
+  endOfPageCallback,
 }: {
   children: React.ReactNode;
   className?: string;
+  endOfPageCallback?: (page: number) => Promise<boolean>; // return false if data was returned. return true if empty array was returned
 }) {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const targetRef = useRef<HTMLDivElement>(null);
+
+  // Functions regarding the end of page event
+  const loadingRef = useRef(false);
+  const pageRef = useRef(0);
+  const endOfDataRef = useRef(false);
 
   const handleScrollUp = () => {
     targetRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -21,12 +28,40 @@ export function ScrollToTop({
     setShowScrollButton(window.scrollY >= 500);
   };
 
+  const handleLeftWindowCalculation = () => {
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight;
+    if (
+      scrollHeight - scrollTop <= 1500 &&
+      scrollHeight > 5000 &&
+      !loadingRef.current &&
+      endOfPageCallback &&
+      !endOfDataRef.current
+    ) {
+      loadingRef.current = true;
+      pageRef.current += 1;
+      endOfPageCallback(pageRef.current).then((isEndOfData) => {
+        if (isEndOfData) {
+          endOfDataRef.current = true;
+        } else {
+          endOfDataRef.current = false;
+        }
+
+        loadingRef.current = false;
+      });
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleVisibleButton);
+    if (endOfPageCallback) {
+      window.addEventListener("scroll", handleLeftWindowCalculation);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className={className}>
+    <div className={className} id="media-container">
       <div id="scrollBackUpPoint" className="absolute -top-4" ref={targetRef} />
       {children}
       <button

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IMedia } from "../interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { SearchBar } from "../utils/searchBar";
-import { ScrollToTop } from "../components/scrollToRef";
+import { ScrollContainer } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
 
 export default function SeriesOverview() {
@@ -12,38 +12,14 @@ export default function SeriesOverview() {
 
   const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
   const [mediaList, setMediaList] = useState<IMedia[]>([]); // Store all media items
-  const [page, setPage] = useState(0);
 
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    if (page > 1000) {
-      collectMoreMedia();
-    }
-    console.log(appConfig);
     collectRandomMedia();
     collectInitialMedia();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    function collectSearchResults() {
-      fetch(`${appConfig.backend_url}/media/series?search=${search}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setMediaList(data);
-        });
-    }
-
-    if (search) {
-      collectSearchResults();
-      setPage(0);
-    } else {
-      collectInitialMedia();
-      setPage(0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
 
   function collectRandomMedia() {
     fetch(`${appConfig.backend_url}/random/series?amount=5`)
@@ -61,16 +37,20 @@ export default function SeriesOverview() {
       });
   }
 
-  function collectMoreMedia() {
-    fetch(`${appConfig.backend_url}/media/series?&page=${page + 1}`)
+  const getMoreMedia = async (page: number): Promise<boolean> => {
+    return fetch(
+      `${appConfig.backend_url}/media/series?page=${page}&search=${search}`
+    )
       .then((response) => response.json())
-      .then((data) => {
-        setMediaList([...mediaList, ...data]);
-      });
-  }
+      .then((data: IMedia[]) => {
+        setMediaList((prevMediaList) => [...prevMediaList, ...data]);
+        return data.length === 0; // Return true if no data was returned
+      })
+      .catch(() => true); // Return true in case of an error
+  };
 
   return (
-    <ScrollToTop className="w-full h-full">
+    <ScrollContainer className="w-full h-full" endOfPageCallback={getMoreMedia}>
       <div className="flex justify-between">
         <h1 className="text-headLine">Series Overview</h1>{" "}
         <SearchBar setSearch={setSearch} />
@@ -106,6 +86,6 @@ export default function SeriesOverview() {
           <PosterMediaCard key={index} media={media} className="h-96" />
         ))}
       </div>
-    </ScrollToTop>
+    </ScrollContainer>
   );
 }

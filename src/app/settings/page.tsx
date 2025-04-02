@@ -10,6 +10,7 @@ import {
   SyncJobElement,
 } from "./components/elements.component";
 import { ISetupConfig } from "../interfaces";
+import { updateConfiguration } from "../actions/configurationProvider";
 
 export default function Settings() {
   const appConfig = useAppConfigContext();
@@ -41,6 +42,25 @@ export default function Settings() {
     }
   }
 
+  async function saveFrontendConfig() {
+    console.log("Save frontend config");
+    updateConfiguration({
+      ...appConfig,
+      appName: appConfig.appName,
+      backend_url:
+        document.getElementById("Backend URL")?.getAttribute("value") ||
+        appConfig.backend_url,
+    });
+  }
+
+  async function saveBackendConfig() {
+    console.log("Save backend config");
+  }
+
+  async function saveScheduledTasks() {
+    console.log("Save scheduled tasks");
+  }
+
   return (
     <div>
       <h1 className="text-headLine mb-4 ml-4">Settings</h1>
@@ -50,18 +70,16 @@ export default function Settings() {
             heading="App Name"
             placeholder="App Name"
             value={appConfig.appName}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="Backend URL"
             placeholder={"Backend URL"}
             value={appConfig.backend_url}
-            setValue={() => console.log("test")}
           />
           <ImageUploadElement />
           <ButtonElement
             className="items-end"
-            onclick={() => console.log("Save")}
+            onclick={() => saveFrontendConfig()}
             disabled={false}
             buttonText="Save"
           />
@@ -72,7 +90,7 @@ export default function Settings() {
             taskName="default-local-scanner"
           />
           <SyncJobElement
-            heading="Scan for new online Media"
+            heading="Scan for new Media"
             taskName="default-scan-for-new-media"
           />
           <SyncJobElement
@@ -85,7 +103,7 @@ export default function Settings() {
           />
           <ButtonElement
             className="items-end"
-            onclick={() => console.log("Save")}
+            onclick={() => saveScheduledTasks()}
             disabled={false}
             buttonText="Save"
           />
@@ -95,47 +113,40 @@ export default function Settings() {
             heading="MongoDB URL"
             placeholder="Enter MongoDB URL"
             value={backendConfig?.MONGO_URI || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="TMDB API Key"
             placeholder="Enter TMDB API Key"
             value={backendConfig?.TMDB_API_KEY || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="RabbitMQ URL"
             placeholder="Enter RabbitMQ URL"
             value={backendConfig?.RABBITMQ_URI || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="RabbitMQ Queue Name"
             placeholder="Enter RabbitMQ Queue Name"
             value={backendConfig?.RABBITMQ_QUEUE || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="Anime Directory"
             placeholder="Enter Anime Directory"
             value={backendConfig?.LOCAL_ANIME_PATH || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="Series Directory"
             placeholder="Enter Series Directory"
             value={backendConfig?.LOCAL_SERIES_PATH || ""}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="Page Size"
             placeholder="Page Size"
             value={backendConfig?.PAGE_SIZE || 100}
-            setValue={() => console.log("test")}
           />
           <ButtonElement
             className="items-end"
-            onclick={() => console.log(backendConfig)}
+            onclick={() => saveBackendConfig()}
             disabled={false}
             buttonText="Save"
           />
