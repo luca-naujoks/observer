@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { IMedia } from "../interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
-import { ScrollToTop } from "../components/scrollToRef";
+import { ScrollContainer } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
 import { SearchBar } from "../utils/searchBar";
 
@@ -12,13 +12,11 @@ export default function Page() {
   const [selectedType, setSelectedType] = useState<string>("anime");
   const [randomLoclMedia, setRandomLocalMedia] = useState<IMedia[]>([]);
   const [localMedia, setLocalMedia] = useState<IMedia[]>([]);
-  const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     getRandomLocalMedia();
-    getLocalMedia(page, search);
+    getLocalMedia(0, search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -27,49 +25,6 @@ export default function Page() {
     getLocalMedia(0, search);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedType]);
-
-  useEffect(() => {
-    if (!loading) {
-      setLoading(true);
-      getMoreLocalMedia(page, search);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
-
-  useEffect(() => {
-    if (loading) {
-      setLoading(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [localMedia]);
-
-  useEffect(() => {
-    let debounceTimer: NodeJS.Timeout;
-
-    const handleScroll = () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        const container = document.getElementById("media-container");
-        if (container) {
-          const bottom = container.scrollHeight - container.clientHeight;
-          if (bottom - container.scrollTop < 300 && !loading) {
-            setPage((prevPage) => prevPage + 1);
-          }
-        }
-      }, 200);
-    };
-
-    const container = document.getElementById("media-container");
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
-    return () => {
-      clearTimeout(debounceTimer);
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, [loading]);
 
   useEffect(() => {
     getLocalMedia(0, search);
@@ -94,12 +49,17 @@ export default function Page() {
       });
   };
 
-  const getMoreLocalMedia = async (page: number, search: string) => {
-    fetch(`${appConfig.backend_url}/local/shows?page=${page}&search=${search}`)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const getMoreMedia = async (page: number): Promise<boolean> => {
+    return fetch(
+      `${appConfig.backend_url}/media/local?page=${page}&search=${search}`
+    )
       .then((response) => response.json())
-      .then((data) => {
-        setLocalMedia(localMedia.concat(data));
-      });
+      .then((data: IMedia[]) => {
+        setLocalMedia((prevMediaList) => [...prevMediaList, ...data]);
+        return data.length === 0; // Return true if no data was returned
+      })
+      .catch(() => true); // Return true in case of an error
   };
 
   function TypeSwitch() {
@@ -134,7 +94,7 @@ export default function Page() {
   }
 
   return (
-    <ScrollToTop className="w-full h-full">
+    <ScrollContainer className="w-full h-full" endOfPageCallback={getMoreMedia}>
       <div className="flex justify-between">
         <h1 className="text-headLine">Locally Available</h1>
         <SearchBar setSearch={setSearch} />
@@ -177,6 +137,6 @@ export default function Page() {
           ))}
         </div>
       </div>
-    </ScrollToTop>
+    </ScrollContainer>
   );
 }

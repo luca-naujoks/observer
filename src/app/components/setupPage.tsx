@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { BorderContainer } from "../utils/borderContainer";
 import { useEffect, useState } from "react";
 import TextInputField from "./InputTextField.component";
-import { ISetupConfig } from "../interfaces";
+import { IBackendConfig } from "../interfaces";
 import { updateConfiguration } from "../actions/configurationProvider";
 
 interface InputFieldState {
@@ -25,15 +25,6 @@ export default function SetupPage() {
   const [backendURL, setBackendURL] = useState<InputFieldState>(
     defaultInputFieldState
   );
-  const [mongodbURL, setMongodbURL] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [rabbitmqURL, setRabbitmqURL] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [rabbitmqQueue, setRabbitmqQueue] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
   const [tmdbApiKey, setTmdbApiKey] = useState<InputFieldState>(
     defaultInputFieldState
   );
@@ -47,9 +38,6 @@ export default function SetupPage() {
   useEffect(() => {
     if (
       backendURL.validated &&
-      mongodbURL.validated &&
-      rabbitmqURL.validated &&
-      rabbitmqQueue.validated &&
       tmdbApiKey.validated &&
       localAnimeDir.validated &&
       localSeriesDir.validated
@@ -60,24 +48,17 @@ export default function SetupPage() {
     }
   }, [
     backendURL.validated,
-    mongodbURL.validated,
-    rabbitmqURL.validated,
-    rabbitmqQueue.validated,
     tmdbApiKey.validated,
     localAnimeDir.validated,
     localSeriesDir.validated,
   ]);
 
   function handleCompleteSetup() {
-    const config: ISetupConfig = {
-      CONFIGURED: true,
-      MONGO_URI: mongodbURL.value,
-      RABBITMQ_URI: rabbitmqURL.value,
-      RABBITMQ_QUEUE: rabbitmqQueue.value,
-      TMDB_API_KEY: tmdbApiKey.value,
-      LOCAL_ANIME_PATH: localAnimeDir.value,
-      LOCAL_SERIES_PATH: localSeriesDir.value,
-      PAGE_SIZE: 100,
+    const config: IBackendConfig = {
+      TmdbApiKey: tmdbApiKey.value,
+      AnimeDir: localAnimeDir.value,
+      SeriesDir: localSeriesDir.value,
+      PageSize: 100,
     };
 
     fetch(`${backendURL.value}/setup/configure`, {
@@ -136,30 +117,6 @@ export default function SetupPage() {
             >
               Backend Configuration
             </h2>
-            <TextInputField
-              id="mongodbURL"
-              placeholder="Enter MongoDB URI"
-              value={mongodbURL}
-              setValue={setMongodbURL}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
-            <TextInputField
-              id="rabbitmqURL"
-              placeholder="Enter RabbitMQ URI"
-              value={rabbitmqURL}
-              setValue={setRabbitmqURL}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
-            <TextInputField
-              id="rabbitmqQueue"
-              placeholder="Enter Rabbit Queue Name"
-              value={rabbitmqQueue}
-              setValue={setRabbitmqQueue}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
             <TextInputField
               id="tmdbApiKey"
               placeholder="Enter TMDB API KEY"

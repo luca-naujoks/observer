@@ -9,13 +9,15 @@ import {
   SettingsContainer,
   SyncJobElement,
 } from "./components/elements.component";
-import { ISetupConfig } from "../interfaces";
+import { IBackendConfig } from "../interfaces";
+import { updateConfiguration } from "../actions/configurationProvider";
 
 export default function Settings() {
   const appConfig = useAppConfigContext();
-  const [backendConfig, setBackendConfig] = useState<ISetupConfig | undefined>(
-    undefined
-  );
+  const [backendConfig, setBackendConfig] = useState<
+    IBackendConfig | undefined
+  >(undefined);
+  const [navigationTab, setNavigationTab] = useState<string>("Frontend");
 
   useEffect(() => {
     console.log("Fetching backend config");
@@ -41,38 +43,109 @@ export default function Settings() {
     }
   }
 
+  async function saveFrontendConfig() {
+    console.log("Save frontend config");
+    updateConfiguration({
+      ...appConfig,
+      appName: appConfig.appName,
+      backend_url:
+        document.getElementById("Backend URL")?.getAttribute("value") ||
+        appConfig.backend_url,
+    });
+  }
+
+  async function saveBackendConfig() {
+    console.log("Save backend config");
+  }
+
+  async function saveScheduledTasks() {
+    console.log("Save scheduled tasks");
+  }
+
   return (
     <div>
       <h1 className="text-headLine mb-4 ml-4">Settings</h1>
-      <div className="grid grid-cols-2 w-full gap-4">
+      <div id="settingsNavigation" className="flex gap-8 ml-4">
+        <NavigationElement
+          title="Frontend"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Backend"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Scheduled Tasks"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Audit"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+      </div>
+      <div className={navigationTab == "Frontend" ? "block" : "hidden"}>
         <SettingsContainer title="Frontend Configuration">
           <InputElement
             heading="App Name"
             placeholder="App Name"
             value={appConfig.appName}
-            setValue={() => console.log("test")}
           />
           <InputElement
             heading="Backend URL"
             placeholder={"Backend URL"}
             value={appConfig.backend_url}
-            setValue={() => console.log("test")}
           />
           <ImageUploadElement />
           <ButtonElement
             className="items-end"
-            onclick={() => console.log("Save")}
+            onclick={() => saveFrontendConfig()}
             disabled={false}
             buttonText="Save"
           />
         </SettingsContainer>
+      </div>
+      <div className={navigationTab == "Backend" ? "block" : "hidden"}>
+        <SettingsContainer title="Backend Configuration">
+          <InputElement
+            heading="TMDB API Key"
+            placeholder="Enter TMDB API Key"
+            value={backendConfig?.TmdbApiKey || ""}
+          />
+          <InputElement
+            heading="Anime Directory"
+            placeholder="Enter Anime Directory"
+            value={backendConfig?.AnimeDir || ""}
+          />
+          <InputElement
+            heading="Series Directory"
+            placeholder="Enter Series Directory"
+            value={backendConfig?.SeriesDir || ""}
+          />
+          <InputElement
+            heading="Page Size"
+            placeholder="Page Size"
+            value={backendConfig?.PageSize || 100}
+          />
+          <ButtonElement
+            className="items-end"
+            onclick={() => saveBackendConfig()}
+            disabled={false}
+            buttonText="Save"
+          />
+        </SettingsContainer>
+      </div>
+      <div className={navigationTab == "Scheduled Tasks" ? "block" : "hidden"}>
         <SettingsContainer title="Synchronization Jobs">
           <SyncJobElement
             heading="Scan for new media in local library"
             taskName="default-local-scanner"
           />
           <SyncJobElement
-            heading="Scan for new online Media"
+            heading="Scan for new Media"
             taskName="default-scan-for-new-media"
           />
           <SyncJobElement
@@ -85,62 +158,36 @@ export default function Settings() {
           />
           <ButtonElement
             className="items-end"
-            onclick={() => console.log("Save")}
-            disabled={false}
-            buttonText="Save"
-          />
-        </SettingsContainer>
-        <SettingsContainer title="Backend Configuration">
-          <InputElement
-            heading="MongoDB URL"
-            placeholder="Enter MongoDB URL"
-            value={backendConfig?.MONGO_URI || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="TMDB API Key"
-            placeholder="Enter TMDB API Key"
-            value={backendConfig?.TMDB_API_KEY || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="RabbitMQ URL"
-            placeholder="Enter RabbitMQ URL"
-            value={backendConfig?.RABBITMQ_URI || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="RabbitMQ Queue Name"
-            placeholder="Enter RabbitMQ Queue Name"
-            value={backendConfig?.RABBITMQ_QUEUE || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="Anime Directory"
-            placeholder="Enter Anime Directory"
-            value={backendConfig?.LOCAL_ANIME_PATH || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="Series Directory"
-            placeholder="Enter Series Directory"
-            value={backendConfig?.LOCAL_SERIES_PATH || ""}
-            setValue={() => console.log("test")}
-          />
-          <InputElement
-            heading="Page Size"
-            placeholder="Page Size"
-            value={backendConfig?.PAGE_SIZE || 100}
-            setValue={() => console.log("test")}
-          />
-          <ButtonElement
-            className="items-end"
-            onclick={() => console.log(backendConfig)}
+            onclick={() => saveScheduledTasks()}
             disabled={false}
             buttonText="Save"
           />
         </SettingsContainer>
       </div>
+      <div className={navigationTab == "Audit" ? "block" : "hidden"}></div>
     </div>
+  );
+}
+
+function NavigationElement({
+  title,
+  navigationTab,
+  setNavigationTab,
+}: {
+  title: string;
+  navigationTab: string;
+  setNavigationTab: (tab: string) => void;
+}) {
+  return (
+    <button
+      className={`${
+        navigationTab == title
+          ? "font-semibold border-b cursor-default"
+          : "cursor-pointer"
+      }`}
+      onClick={() => setNavigationTab(title)}
+    >
+      {title}
+    </button>
   );
 }

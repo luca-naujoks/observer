@@ -33,21 +33,24 @@ export default async function RootLayout({
       id="html"
       lang="en"
       className={`max-w-screen max-h-screen bg-gray-900 no-text-cursor`}
+      style={
+        appConfig.background_image
+          ? {
+              backgroundImage: "url('/assets/wallpaper')",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              backgroundAttachment: "fixed",
+              backgroundColor: "rgba(17, 24, 39, 0.75)",
+              backgroundBlendMode: "overlay",
+              backdropFilter: "blur(4px)",
+              zIndex: -1,
+            }
+          : {}
+      }
     >
       <body
         id="body"
         className={`flex h-screen w-full text-gray-300  ${geistSans.variable} ${geistMono.variable} antialiased`}
-        style={
-          appConfig.background_image
-            ? {
-                backgroundImage: "url('/assets/wallpaper')",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundAttachment: "fixed",
-                transition: "background-image 0.5s ease-in-out",
-              }
-            : {}
-        }
       >
         {appConfig.configured ? (
           <ClientLayout appConfig={appConfig}>{children}</ClientLayout>
