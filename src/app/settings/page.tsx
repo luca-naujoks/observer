@@ -9,14 +9,15 @@ import {
   SettingsContainer,
   SyncJobElement,
 } from "./components/elements.component";
-import { ISetupConfig } from "../interfaces";
+import { IBackendConfig } from "../interfaces";
 import { updateConfiguration } from "../actions/configurationProvider";
 
 export default function Settings() {
   const appConfig = useAppConfigContext();
-  const [backendConfig, setBackendConfig] = useState<ISetupConfig | undefined>(
-    undefined
-  );
+  const [backendConfig, setBackendConfig] = useState<
+    IBackendConfig | undefined
+  >(undefined);
+  const [navigationTab, setNavigationTab] = useState<string>("Frontend");
 
   useEffect(() => {
     console.log("Fetching backend config");
@@ -64,7 +65,29 @@ export default function Settings() {
   return (
     <div>
       <h1 className="text-headLine mb-4 ml-4">Settings</h1>
-      <div className="grid grid-cols-2 w-full gap-4">
+      <div id="settingsNavigation" className="flex gap-8 ml-4">
+        <NavigationElement
+          title="Frontend"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Backend"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Scheduled Tasks"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+        <NavigationElement
+          title="Audit"
+          navigationTab={navigationTab}
+          setNavigationTab={setNavigationTab}
+        />
+      </div>
+      <div className={navigationTab == "Frontend" ? "block" : "hidden"}>
         <SettingsContainer title="Frontend Configuration">
           <InputElement
             heading="App Name"
@@ -84,6 +107,38 @@ export default function Settings() {
             buttonText="Save"
           />
         </SettingsContainer>
+      </div>
+      <div className={navigationTab == "Backend" ? "block" : "hidden"}>
+        <SettingsContainer title="Backend Configuration">
+          <InputElement
+            heading="TMDB API Key"
+            placeholder="Enter TMDB API Key"
+            value={backendConfig?.TmdbApiKey || ""}
+          />
+          <InputElement
+            heading="Anime Directory"
+            placeholder="Enter Anime Directory"
+            value={backendConfig?.AnimeDir || ""}
+          />
+          <InputElement
+            heading="Series Directory"
+            placeholder="Enter Series Directory"
+            value={backendConfig?.SeriesDir || ""}
+          />
+          <InputElement
+            heading="Page Size"
+            placeholder="Page Size"
+            value={backendConfig?.PageSize || 100}
+          />
+          <ButtonElement
+            className="items-end"
+            onclick={() => saveBackendConfig()}
+            disabled={false}
+            buttonText="Save"
+          />
+        </SettingsContainer>
+      </div>
+      <div className={navigationTab == "Scheduled Tasks" ? "block" : "hidden"}>
         <SettingsContainer title="Synchronization Jobs">
           <SyncJobElement
             heading="Scan for new media in local library"
@@ -108,50 +163,31 @@ export default function Settings() {
             buttonText="Save"
           />
         </SettingsContainer>
-        <SettingsContainer title="Backend Configuration">
-          <InputElement
-            heading="MongoDB URL"
-            placeholder="Enter MongoDB URL"
-            value={backendConfig?.MONGO_URI || ""}
-          />
-          <InputElement
-            heading="TMDB API Key"
-            placeholder="Enter TMDB API Key"
-            value={backendConfig?.TMDB_API_KEY || ""}
-          />
-          <InputElement
-            heading="RabbitMQ URL"
-            placeholder="Enter RabbitMQ URL"
-            value={backendConfig?.RABBITMQ_URI || ""}
-          />
-          <InputElement
-            heading="RabbitMQ Queue Name"
-            placeholder="Enter RabbitMQ Queue Name"
-            value={backendConfig?.RABBITMQ_QUEUE || ""}
-          />
-          <InputElement
-            heading="Anime Directory"
-            placeholder="Enter Anime Directory"
-            value={backendConfig?.LOCAL_ANIME_PATH || ""}
-          />
-          <InputElement
-            heading="Series Directory"
-            placeholder="Enter Series Directory"
-            value={backendConfig?.LOCAL_SERIES_PATH || ""}
-          />
-          <InputElement
-            heading="Page Size"
-            placeholder="Page Size"
-            value={backendConfig?.PAGE_SIZE || 100}
-          />
-          <ButtonElement
-            className="items-end"
-            onclick={() => saveBackendConfig()}
-            disabled={false}
-            buttonText="Save"
-          />
-        </SettingsContainer>
       </div>
+      <div className={navigationTab == "Audit" ? "block" : "hidden"}></div>
     </div>
+  );
+}
+
+function NavigationElement({
+  title,
+  navigationTab,
+  setNavigationTab,
+}: {
+  title: string;
+  navigationTab: string;
+  setNavigationTab: (tab: string) => void;
+}) {
+  return (
+    <button
+      className={`${
+        navigationTab == title
+          ? "font-semibold border-b cursor-default"
+          : "cursor-pointer"
+      }`}
+      onClick={() => setNavigationTab(title)}
+    >
+      {title}
+    </button>
   );
 }
