@@ -28,7 +28,7 @@ export default function Settings() {
   }, []);
 
   async function getBackendConfig() {
-    const response = await fetch(appConfig.backend_url + "/setup/config", {
+    const response = await fetch(appConfig.backend_url + "/setup", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -63,9 +63,9 @@ export default function Settings() {
   }
 
   return (
-    <div>
+    <>
       <h1 className="text-headLine mb-4 ml-4">Settings</h1>
-      <div id="settingsNavigation" className="flex gap-8 ml-4">
+      <div id="settingsNavigation" className="flex gap-8 ml-4 mb-4">
         <NavigationElement
           title="Frontend"
           navigationTab={navigationTab}
@@ -165,7 +165,7 @@ export default function Settings() {
         </SettingsContainer>
       </div>
       <div className={navigationTab == "Audit" ? "block" : "hidden"}></div>
-    </div>
+    </>
   );
 }
 

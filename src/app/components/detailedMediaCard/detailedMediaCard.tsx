@@ -8,7 +8,7 @@ import { EditPopup } from "./components/editPopup";
 import { InfoCard } from "./components/infoCard";
 import { useAppConfigContext } from "../../utils/appConfigContext";
 import Image from "next/image";
-import { SeasonContainer } from "../seasonContainer";
+import { SeasonContainer } from "../ui/SeasonContainer";
 import useSWR from "swr";
 
 export function DetailedMediaCard() {
@@ -71,8 +71,8 @@ export function DetailedMediaCard() {
     fetchMediaData();
   };
 
-  if (error) return <div>Error loading media data</div>;
-  if (!media) return <div>Loading...</div>;
+  if (error) return <p>Error loading media data</p>;
+  if (!media) return <p>Loading...</p>;
 
   return (
     <div className="flex flex-col">
