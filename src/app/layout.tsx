@@ -4,6 +4,7 @@ import "./globals.css";
 import ClientLayout from "./components/clientlayout";
 import { getConfiguration } from "./actions/configurationProvider";
 import SetupPage from "./components/setupPage";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -15,11 +16,12 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Anisquid Observer",
-  description: "AniSquid Observer Management",
-  icons: "icon.ico",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const appConfig = await getConfiguration();
+  return {
+    title: `${appConfig.appName} | ${appConfig.appVersion}`,
+  };
+}
 
 export default async function RootLayout({
   children,

@@ -63,7 +63,7 @@ export function PosterMediaCard({
         <div
           className={`${
             isHovered
-              ? "flex flex-col justify-between h-full w-full p-4 bg-gray-900/50 rounded-md"
+              ? "flex flex-col justify-between h-full w-full p-1 bg-gray-900/50 overflow-x-hidden rounded-md"
               : "hidden"
           }`}
         >
@@ -105,11 +105,11 @@ export function SearchMediaCard({
           />
           <div className="flex flex-col justify-between w-full h-full">
             <h1 className="text-2xl font-bold">{media.name}</h1>
-            <div>
+            <>
               <p className="text-sm">Original Name: {media.original_name}</p>
               <p className="text-sm">ID: {media.tmdb_id}</p>
               <p className="text-sm">First Air Date: {media.first_air_date}</p>
-            </div>
+            </>
             <button
               className={
                 selectedmedia.tmdb_id === media.tmdb_id

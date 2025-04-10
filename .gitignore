@@ -1,6 +1,7 @@
 # Application Specific
 /assets
-/config
+config
+
 
 # Logs
 logs

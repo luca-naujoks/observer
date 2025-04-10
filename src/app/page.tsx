@@ -4,13 +4,14 @@ import { IMedia } from "./interfaces";
 import { BackdropMediaCard, PosterMediaCard } from "./utils/mediaCards";
 import { ScrollContainer } from "./components/scrollToRef";
 import { useAppConfigContext } from "./utils/appConfigContext";
+import { TypeSwitch } from "./components/ui/MediaTypeSwitch";
 
 export default function Overview() {
   const appConfig = useAppConfigContext();
 
   const [trendingAnime, setTrendingAnime] = useState<IMedia[]>([]);
   const [trendingSeries, setTrendingSeries] = useState<IMedia[]>([]);
-  const [selectedType, setSelectedType] = useState("anime");
+  const [selectedType, setSelectedType] = useState<string>("anime");
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -36,38 +37,6 @@ export default function Overview() {
     getTrendingSeries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  function TypeSwitch() {
-    return (
-      <div className="flex items-center justify-between w-full h-20">
-        <h1 className="text-headLine w-[20%]">Also Trending</h1>
-        <p className="w-[50%] border border-gray-400" />
-        <div
-          id="typeSwitcher"
-          className="flex justify-between w-[20%] h-16 bg-gray-400/25 rounded-sm"
-        >
-          <button
-            className={
-              (selectedType == "anime" ? "bg-gray-900/75" : "") +
-              " w-full cursor-pointer"
-            }
-            onClick={() => setSelectedType("anime")}
-          >
-            Anime
-          </button>
-          <button
-            className={
-              (selectedType == "serie" ? "bg-gray-900/75" : "") +
-              " w-full cursor-pointer"
-            }
-            onClick={() => setSelectedType("serie")}
-          >
-            Series
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   function getRightMedia(itemPosition: number) {
     if (selectedType == "anime") {
@@ -107,7 +76,11 @@ export default function Overview() {
       </div>
       <div id="secondContainer" className="w-full h-full">
         <div className="flex justify-between my-2">
-          <TypeSwitch />
+          <TypeSwitch
+            label="Also Trending"
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+          />
         </div>
         <div
           id="currentlyTrending"

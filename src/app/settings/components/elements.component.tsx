@@ -69,6 +69,7 @@ export function SyncJobElement({
 
   const [currentSchedule, setCurrentSchedule] = useState<string>("");
   const [value, setValue] = useState<string>("");
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   async function updateJob() {
     const url = appConfig.backend_url + "/schedules";
@@ -92,36 +93,56 @@ export function SyncJobElement({
   }
 
   useEffect(() => {
-    fetch(appConfig.backend_url + `/schedules/task?taskName=${taskName}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          appConfig.backend_url + `/schedules/task?taskName=${taskName}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
           setValue(data.schedule);
           setCurrentSchedule(data.schedule);
-        });
-      } else {
-        console.log(`Failed to fetch scheduled tasks for ${taskName}`);
+        } else {
+          throw new Error("Failed to fetch schedule");
+        }
+      } catch (error) {
+        setDisabled(true);
       }
-    });
+    };
+
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className={`flex flex-col mb-4 ${className}`} title="Sync Job">
-      <h1 className="text-lg mb-2 text-gray-500">{heading}</h1>
+      <h1
+        className={`text-lg mb-2 ${
+          disabled ? "text-gray-700" : "text-gray-500"
+        }`}
+      >
+        {heading}
+      </h1>
       <div className="flex gap-2 ">
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="inputField focus:text-white"
+          className={`w-full bg-transparent border-2 ${
+            disabled ? "border-gray-700" : "border-gray-500"
+          } p-1 pl-2 text-gray-500 outline-hidden rounded-md focus:text-white`}
+          disabled={disabled}
         />
         <button
           onClick={currentSchedule === value ? runJobNow : updateJob}
           className="customButton w-28"
+          disabled={disabled}
         >
           {currentSchedule === value ? "Run Now" : "Save"}
         </button>
@@ -220,7 +241,7 @@ export function SettingsContainer({
   title: string;
 }) {
   return (
-    <div className="flex flex-col w-4/5 mb-4 bg-gray-500/12 p-4 rounded-md">
+    <div className="flex flex-col w-4/5 mb-4 bg-gray-300/25 p-4 rounded-md">
       <h1 className="secondHeaddline">{title}</h1>
       {children}
     </div>

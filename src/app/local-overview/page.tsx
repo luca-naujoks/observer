@@ -5,6 +5,7 @@ import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { ScrollContainer } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
 import { SearchBar } from "../utils/searchBar";
+import { TypeSwitch } from "../components/ui/MediaTypeSwitch";
 
 export default function Page() {
   const appConfig = useAppConfigContext();
@@ -62,37 +63,6 @@ export default function Page() {
       .catch(() => true); // Return true in case of an error
   };
 
-  function TypeSwitch() {
-    return (
-      <div className="flex items-center justify-end w-full h-20">
-        <p className="w-[50%] mr-[5%] border border-gray-400" />
-        <div
-          id="typeSwitcher"
-          className="flex justify-between w-[20%] h-16 bg-gray-400/25 rounded-sm"
-        >
-          <button
-            className={
-              (selectedType == "anime" ? "bg-gray-900/75" : "") +
-              " w-full cursor-pointer"
-            }
-            onClick={() => setSelectedType("anime")}
-          >
-            Anime
-          </button>
-          <button
-            className={
-              (selectedType == "serie" ? "bg-gray-900/75" : "") +
-              " w-full cursor-pointer"
-            }
-            onClick={() => setSelectedType("serie")}
-          >
-            Series
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <ScrollContainer className="w-full h-full" endOfPageCallback={getMoreMedia}>
       <div className="flex justify-between">
@@ -126,7 +96,11 @@ export default function Page() {
       </div>
       <div id="secondContainer" className="w-full h-full">
         <div className="flex justify-end my-2">
-          <TypeSwitch />
+          <TypeSwitch
+            label=""
+            selectedType={selectedType}
+            setSelectedType={setSelectedType}
+          />
         </div>
         <div
           id="currentlyTrending"
