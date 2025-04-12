@@ -2,11 +2,11 @@
 
 import Form from "next/form";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormErrorMessage } from "./ui/FormErrorMessage";
 import { FormInput } from "./ui/FormInput";
 import { FormHeadLine } from "./ui/FormHeadLine";
-import { SubmitButton } from "./ui/SubmitButton";
+import { SubmitButton } from "./ui/FormSubmitButton";
 import { updateConfiguration } from "../actions/configurationProvider";
 import { useRouter } from "next/navigation";
 
@@ -34,10 +34,9 @@ interface SetupReturn {
 export default function SetupPage() {
   const router = useRouter();
   const [response, setResponse] = useState<SetupReturn>({} as SetupReturn);
-  const [stage, setStage] = useState(0);
 
   const [backendURL, setBackendURL] = useState("");
-  const [backendUrlValid, setBackendUrlValid] = useState<boolean>(true);
+  const [backendUrlValid, setBackendUrlValid] = useState<boolean>(false);
 
   const [tmdbApiKey, setTmdbApiKey] = useState("");
   const [animeDir, setAnimeDir] = useState("");
@@ -51,7 +50,7 @@ export default function SetupPage() {
         TmdbApiKey: tmdbApiKey,
         AnimeDir: animeDir,
         SeriesDir: seriesDir,
-        PageSize: pageSize,
+        PageSize: parseInt(pageSize),
       };
 
       const response = fetch(backendURL + "/setup", {
@@ -81,15 +80,56 @@ export default function SetupPage() {
     await setupRequest();
   }
 
+  async function validateBackendUrl(): Promise<boolean> {
+    const urlPattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3})|" + // OR ip (v4) address
+        "(localhost))" + // OR localhost
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    if (!urlPattern.test(backendURL)) {
+      return false;
+    }
+    try {
+      const response = await fetch(backendURL + "/setup/discovery");
+      if (response.status == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    const timeOut = setTimeout(async () => {
+      setBackendUrlValid(await validateBackendUrl());
+    }, 500);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendURL]);
+
   return (
-    <div className="flex w-full h-full items-center justify-center">
+    <div
+      className="flex w-full h-full items-center justify-center"
+      style={{
+        backgroundImage: "url('/assets/wallpaper')",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
       <Form
         action={submitConfig}
         className={
-          "flex flex-col justify-between w-1/3 h-fit p-4 border border-gray-500 rounded-md"
+          "flex flex-col justify-between w-1/3 h-fit p-4 bg-gray-300/25 backdrop-blur-sm rounded-md"
         }
       >
-        <section className="text-gray-400">
+        <section className="text-white">
           <FormHeadLine title="Setup" />
           <h1 className="text-2xl">Frontend Configuration</h1>
           <FormInput
@@ -102,8 +142,8 @@ export default function SetupPage() {
           <section
             className={
               backendUrlValid
-                ? "text-gray-400"
-                : "text-gray-600 placeholder:text-gray-500"
+                ? "text-white"
+                : "text-gray-400 placeholder:text-gray-400"
             }
           >
             <h1 className="mt-8 text-2xl">Backend Configuration</h1>

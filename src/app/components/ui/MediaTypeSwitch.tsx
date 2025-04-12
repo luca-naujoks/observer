@@ -15,7 +15,7 @@ export function TypeSwitch({
       <p className="w-[50%] border border-gray-400" />
       <div
         id="typeSwitcher"
-        className="relative flex items-center w-[20%] h-16 bg-gray-400/25 rounded-md overflow-hidden"
+        className="relative flex items-center w-[20%] h-14 bg-gray-400/25 rounded-md overflow-hidden"
       >
         <div
           className={`absolute top-0 h-full w-1/2 bg-gray-900/75 rounded-md transition-transform ease-in-out duration-300 ${

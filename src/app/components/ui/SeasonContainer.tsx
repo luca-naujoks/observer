@@ -47,6 +47,7 @@ export function SeasonContainer({
       setSeasonDetails(await getSeasonEpisodes());
     }
     fetchSeasonDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seasonOpen]);
 
   return (

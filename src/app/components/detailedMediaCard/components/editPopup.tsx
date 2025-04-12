@@ -31,7 +31,7 @@ export function EditPopup({
           "Content-Type": "application/json",
         },
       }
-    ).then(() => console.log(stream_name, tmdb_id));
+    );
     setLoading(false);
     setMedia([]);
     closePopup();
