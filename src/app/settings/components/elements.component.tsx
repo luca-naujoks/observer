@@ -7,14 +7,20 @@ export function ButtonElement({
   className,
   disabled,
   buttonText,
+  width,
 }: {
   onclick: () => void;
   className?: string;
   disabled?: boolean;
   buttonText: string;
+  width?: string;
 }) {
   return (
-    <div className={`flex flex-col gap-2 w-full h-full ${className}`}>
+    <div
+      className={`flex flex-col gap-2 h-full ${
+        width ? width : "w-full"
+      } ${className}`}
+    >
       <button
         disabled={disabled}
         onClick={onclick}
@@ -26,44 +32,14 @@ export function ButtonElement({
   );
 }
 
-export function InputElement({
-  heading,
-  className,
-  disabled,
-  placeholder,
-  value,
-}: {
-  heading: string;
-  className?: string;
-  disabled?: boolean;
-  placeholder: string;
-  value: string | number;
-}) {
-  const [inputValue, setInputValue] = useState(value);
-
-  return (
-    <div className={`flex flex-col text-gray-500 mb-4 ${className}`}>
-      <h1 className="text-lg mb-2">{heading}</h1>
-      <input
-        id={heading}
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder={placeholder}
-        disabled={disabled}
-        className="inputField"
-      />
-    </div>
-  );
-}
-
 export function SyncJobElement({
   heading,
-  className,
   taskName,
+  width,
 }: {
   heading: string;
-  className?: string;
   taskName: string;
+  width?: string;
 }) {
   const appConfig = useAppConfigContext();
 
@@ -112,7 +88,7 @@ export function SyncJobElement({
         } else {
           throw new Error("Failed to fetch schedule");
         }
-      } catch (error) {
+      } catch {
         setDisabled(true);
       }
     };
@@ -122,11 +98,12 @@ export function SyncJobElement({
   }, []);
 
   return (
-    <div className={`flex flex-col mb-4 ${className}`} title="Sync Job">
+    <div
+      className={`flex flex-col mb-4 ${width ? width : "w-full"}`}
+      title="Sync Job"
+    >
       <h1
-        className={`text-lg mb-2 ${
-          disabled ? "text-gray-700" : "text-gray-500"
-        }`}
+        className={`text-lg mb-2 ${disabled ? "text-gray-400" : "text-white"}`}
       >
         {heading}
       </h1>
@@ -135,7 +112,7 @@ export function SyncJobElement({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className={`w-full bg-transparent border-2 ${
-            disabled ? "border-gray-700" : "border-gray-500"
+            disabled ? "border-gray-400" : "border-white"
           } p-1 pl-2 text-gray-500 outline-hidden rounded-md focus:text-white`}
           disabled={disabled}
         />
@@ -151,7 +128,7 @@ export function SyncJobElement({
   );
 }
 
-export function ImageUploadElement({ className }: { className?: string }) {
+export function ImageUploadElement({ width }: { width?: string }) {
   const appConfig = useAppConfigContext();
 
   const [uploadOrRemove, setUploadOrRemove] = useState("Remove");
@@ -208,12 +185,12 @@ export function ImageUploadElement({ className }: { className?: string }) {
   }
 
   return (
-    <div className={`flex flex-col mb-4 ${className}`}>
-      <h1 className="text-lg text-gray-500 mb-2">Wallpaper Upload</h1>
+    <div className={`flex flex-col mb-4 ${width ? width : "w-full"}`}>
+      <h1 className="text-lg text-white mb-2">Wallpaper Upload</h1>
       <div className="flex gap-4">
         <input
           ref={uploadInput}
-          className="inputField"
+          className={`w-full bg-transparent border-2 border-white p-1 pl-2 text-white outline-hidden rounded-md`}
           type="file"
           id="wallpaperUpload"
           accept=".jpg, .png"
@@ -229,21 +206,6 @@ export function ImageUploadElement({ className }: { className?: string }) {
           {uploadOrRemove == "Upload" ? "Upload" : "Remove"}
         </button>
       </div>
-    </div>
-  );
-}
-
-export function SettingsContainer({
-  children,
-  title,
-}: {
-  children?: React.ReactNode;
-  title: string;
-}) {
-  return (
-    <div className="flex flex-col w-4/5 mb-4 bg-gray-300/25 p-4 rounded-md">
-      <h1 className="secondHeaddline">{title}</h1>
-      {children}
     </div>
   );
 }

@@ -19,7 +19,9 @@ const geistMono = localFont({
 export async function generateMetadata(): Promise<Metadata> {
   const appConfig = await getConfiguration();
   return {
-    title: `${appConfig.appName} | ${appConfig.appVersion}`,
+    title: `${appConfig.appName}`,
+    icons: "favicon.ico",
+    description: `${appConfig.appName} version: ${appConfig.appVersion}`,
   };
 }
 

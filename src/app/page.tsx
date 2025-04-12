@@ -28,7 +28,6 @@ export default function Overview() {
       .then((response) => response.json())
       .then((data) => {
         setTrendingSeries(data);
-        console.log(data);
       });
   };
 

@@ -1,7 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 export function FormInput({
   label,
   value,
@@ -12,6 +8,7 @@ export function FormInput({
   defaultValue,
   disabled,
   required,
+  width,
 }: {
   label?: string;
   value: string | number;
@@ -22,6 +19,7 @@ export function FormInput({
   defaultValue?: string | number;
   disabled?: boolean;
   required?: boolean;
+  width?: string;
 }) {
   return (
     <>
@@ -34,9 +32,11 @@ export function FormInput({
         value={value}
         onChange={(e) => setValue(e.target.value as string)}
         disabled={disabled == undefined ? false : disabled}
-        className={`w-full px-2 py-1 bg-transparent outline-hidden border-2 border-gray-500 ${
+        className={`${
+          width ? width : "w-full"
+        }  px-2 py-1 bg-transparent outline-hidden border-2 border-white ${
           error ? "border-red-500" : ""
-        } disabled:border-gray-700 placeholder-gray-700 rounded-md`}
+        } disabled:border-gray-400 rounded-md`}
       />
       <p className="mb-4 text-red-500">{error ? errorValue : ""}</p>
     </>
