@@ -21,11 +21,11 @@ Here is a working but limited [Demo](https://luca-naujoks.de/demo/anistream)
 
 The First Page you will face when opening AniStream will be the Overview page with all the currently hot and trending Anime and Series.
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/overview.png" width="120" alt="AniStream Overview" />
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/overview.png" alt="AniStream Overview" />
 
 ### Local Media Overview
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/icon.png" width="120" alt="AniStream Logo" />
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/icon.png" width="120" alt="AniStream Local Media" />
 
 ### Anime and Series Overview
 
