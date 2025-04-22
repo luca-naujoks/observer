@@ -2,8 +2,9 @@ import { useState } from "react";
 import { FormInput } from "../../components/ui/FormInput";
 import { useAppConfigContext } from "../../utils/appConfigContext";
 import { SettingsContainer } from "./SettingsContainer";
-import { ButtonElement, ImageUploadElement } from "./elements.component";
+import { ButtonElement } from "./elements.component";
 import { updateConfiguration } from "../../actions/configurationProvider";
+import { ImageUploadElement } from "../../components/ui/FormImageUpload";
 
 export function FrontendContainer() {
   const appConfig = useAppConfigContext();

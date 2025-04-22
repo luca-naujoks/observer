@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { IMedia } from "../interfaces";
-import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { ScrollContainer } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
 import { SearchBar } from "../utils/searchBar";
 import { TypeSwitch } from "../components/ui/MediaTypeSwitch";
+import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
+import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 
 export default function Page() {
   const appConfig = useAppConfigContext();
@@ -104,11 +105,13 @@ export default function Page() {
         </div>
         <div
           id="currentlyTrending"
-          className="h-full grid grid-cols-5 grid-rows-3 gap-4"
+          className="grid grid-cols-5 grid-rows-3 gap-4"
         >
-          {localMedia.map((media, index) => (
-            <PosterMediaCard key={index} media={media} />
-          ))}
+          {localMedia
+            .filter((media) => media.type == selectedType)
+            .map((media, index) => (
+              <PosterMediaCard key={index} media={media} />
+            ))}
         </div>
       </div>
     </ScrollContainer>

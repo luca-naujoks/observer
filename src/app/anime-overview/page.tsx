@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect } from "react";
 import { IMedia } from "../interfaces";
-import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
 import { SearchBar } from "../utils/searchBar";
 import { ScrollContainer } from "../components/scrollToRef";
 import { useAppConfigContext } from "../utils/appConfigContext";
+import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
+import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 
 export default function AnimeOverview() {
   const appConfig = useAppConfigContext();
@@ -98,7 +99,7 @@ export default function AnimeOverview() {
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
       <div id="currentlyTrending" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
-          <PosterMediaCard key={index} media={media} className="h-96" />
+          <PosterMediaCard key={index} media={media} />
         ))}
       </div>
     </ScrollContainer>

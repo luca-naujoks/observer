@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { IMedia } from "./interfaces";
-import { BackdropMediaCard, PosterMediaCard } from "./utils/mediaCards";
 import { ScrollContainer } from "./components/scrollToRef";
 import { useAppConfigContext } from "./utils/appConfigContext";
 import { TypeSwitch } from "./components/ui/MediaTypeSwitch";
+import { BackdropMediaCard } from "./components/ui/BackdropMediaCard";
+import { PosterMediaCard } from "./components/ui/PosterMediaCard";
 
 export default function Overview() {
   const appConfig = useAppConfigContext();
@@ -83,7 +84,7 @@ export default function Overview() {
         </div>
         <div
           id="currentlyTrending"
-          className="h-full grid grid-cols-5 grid-rows-3 gap-4"
+          className="h-full grid grid-cols-5 gap-4"
           ref={containerRef}
         >
           {Array.from({ length: 16 }, (v, i) => i).map((index) => {

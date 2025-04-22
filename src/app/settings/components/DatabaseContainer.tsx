@@ -42,7 +42,7 @@ function DatabaseInfoContainer({
   value: number;
 }) {
   return (
-    <div className="w-2/3 border-white border p-2 shadow-xs shadow-white rounded-md">
+    <div className="w-2/3 border-gray-500 border p-2 shadow-xs shadow-gray-500 rounded-md">
       <h1 className="text-xl font-semibold">{label}</h1>
       <p>{value}</p>
     </div>
