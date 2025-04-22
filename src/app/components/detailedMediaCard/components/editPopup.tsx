@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IDetailedMedia } from "../../../interfaces";
-import { SearchMediaCard } from "../../../utils/mediaCards";
 import { SearchBar } from "../../../utils/searchBar";
 import { useAppConfigContext } from "../../../utils/appConfigContext";
+import { SearchMediaCard } from "../../ui/SearchMediaCard";
 
 export function EditPopup({
   selectedmedia,

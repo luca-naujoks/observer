@@ -9,6 +9,7 @@ import { FormHeadLine } from "./ui/FormHeadLine";
 import { SubmitButton } from "./ui/FormSubmitButton";
 import { updateConfiguration } from "../actions/configurationProvider";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface SetupReturn {
   fieldData: {
@@ -115,14 +116,16 @@ export default function SetupPage() {
   }, [backendURL]);
 
   return (
-    <div
-      className="flex w-full h-full items-center justify-center"
-      style={{
-        backgroundImage: "url('/assets/wallpaper')",
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
+    <div className="fixed flex w-full h-full items-center justify-center">
+      <div className="fixed inset-0 -z-50">
+        <Image
+          src="/assets/wallpaper"
+          alt=""
+          fill={true}
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gray-950/75" />
+      </div>
       <Form
         action={submitConfig}
         className={

@@ -1,5 +1,6 @@
+import { SyncJobElement } from "../../components/ui/FormSyncJob";
 import { SettingsContainer } from "./SettingsContainer";
-import { SyncJobElement, ButtonElement } from "./elements.component";
+import { ButtonElement } from "./elements.component";
 
 export function ScheduledTasksContainer() {
   async function saveScheduledTasks() {}
@@ -22,7 +23,7 @@ export function ScheduledTasksContainer() {
       />
       <SyncJobElement
         heading="Scan for currently trending media"
-        taskName="trending-media"
+        taskName="default-collect-trending-media"
         width="w-2/3"
       />
       <ButtonElement

@@ -81,17 +81,23 @@ export function DetailedMediaCard() {
       ) : null}
       <div
         id="backdrop"
-        className={`w-full bg-cover bg-center bg-gray-900/25 rounded-t-md`}
-        style={
-          media.backdrop ? { backgroundImage: `url(${media.backdrop})` } : {}
-        }
+        className={`relative w-full bg-gray-900/25 rounded-md`}
       >
-        <div className="grid grid-cols-6 grid-rows-4 h-full p-4 bg-gray-900/25 rounded-t-md">
+        {media.backdrop && (
+          <Image
+            src={media.backdrop}
+            alt="Backdrop"
+            fill={true}
+            objectFit="cover"
+            className="-z-10 rounded-md"
+          />
+        )}
+        <div className="grid grid-cols-6 grid-rows-4 h-full p-4 bg-gray-900/25 rounded-md">
           {media.poster ? (
             <div className="flex justify-start col-span-2 row-span-4">
               <Image
                 src={media.poster}
-                alt=""
+                alt="Poster"
                 width={440}
                 height={660}
                 className="rounded-xl"
@@ -144,6 +150,7 @@ export function DetailedMediaCard() {
           </div>
         </div>
       </div>
+
       <div id="body" className="flex w-full h-fit my-12 gap-4">
         <div className="w-4/6 min-h-full">
           <h1 className="text-2xl pb-1 font-semibold">Description</h1>

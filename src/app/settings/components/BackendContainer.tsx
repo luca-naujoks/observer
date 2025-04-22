@@ -11,6 +11,8 @@ export function BackendContainer() {
   const [animeDir, setAnimeDir] = useState<string>("");
   const [seriesDir, setSeriesDir] = useState<string>("");
   const [PageSize, setPageSize] = useState<string>("");
+  const [animeUrl, setAnimeUrl] = useState<string>("");
+  const [seriesUrl, setSeriesUrl] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,6 +90,20 @@ export function BackendContainer() {
         placeholder="Page Size"
         value={PageSize}
         setValue={setPageSize}
+        width="w-2/3"
+      />
+      <FormInput
+        label="Anime URL"
+        placeholder="Anime URL"
+        value={animeUrl}
+        setValue={setAnimeUrl}
+        width="w-2/3"
+      />
+      <FormInput
+        label="Series URL"
+        placeholder="Series URL"
+        value={seriesUrl}
+        setValue={setSeriesUrl}
         width="w-2/3"
       />
       <ButtonElement

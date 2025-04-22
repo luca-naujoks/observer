@@ -67,7 +67,7 @@ export function ScrollContainer({
       <button
         className={
           (showScrollButton ? "block" : "hidden") +
-          " fixed bottom-8 right-8 bg-gray-900/75 p-2 rounded-full hover:bg-gray-900"
+          " fixed bottom-8 right-8 bg-gray-900/75 p-2 rounded-full hover:bg-gray-900 cursor-pointer"
         }
         onClick={() => handleScrollUp()}
       >
