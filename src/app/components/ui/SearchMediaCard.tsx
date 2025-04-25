@@ -2,6 +2,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { IDetailedMedia } from "../../interfaces";
 import { BorderContainer } from "../../utils/borderContainer";
+import { useState } from "react";
 
 export function SearchMediaCard({
   selectedmedia,
@@ -13,17 +14,23 @@ export function SearchMediaCard({
   updateMedia: (stream_name: string, tmdb_id: number) => void;
 }) {
   const stream_name = useSearchParams().get("stream_name") || "";
+  const [loading, setLoading] = useState(true);
 
   if (media) {
     return (
       <BorderContainer className={`w-full h-64`}>
         <div className={`flex gap-4 w-full h-full rounded-md`}>
           <Image
-            src={"https://image.tmdb.org/t/p/original" + media.poster}
-            width={300}
-            height={200}
+            src={loading ? "/missing-poster.webp" : media.poster}
+            priority={true}
+            width={400}
+            height={600}
+            onLoad={() => setLoading(false)}
             alt=""
-            className="h-full w-1/6 rounded-md"
+            className={
+              "h-full w-1/6 rounded-md " +
+              (loading ? "animate-pulse" : "animate-none")
+            }
           />
           <div className="flex flex-col justify-between w-full h-full">
             <h1 className="text-2xl font-bold">{media.name}</h1>

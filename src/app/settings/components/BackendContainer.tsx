@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FormInput } from "../../components/ui/FormInput";
 import { IBackendConfig } from "../../interfaces";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 import { SettingsContainer } from "./SettingsContainer";
-import { ButtonElement } from "./elements.component";
+import { Button } from "../../components/ui/Button";
 
 export function BackendContainer() {
   const appConfig = useAppConfigContext();
@@ -11,8 +11,6 @@ export function BackendContainer() {
   const [animeDir, setAnimeDir] = useState<string>("");
   const [seriesDir, setSeriesDir] = useState<string>("");
   const [PageSize, setPageSize] = useState<string>("");
-  const [animeUrl, setAnimeUrl] = useState<string>("");
-  const [seriesUrl, setSeriesUrl] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,21 +90,7 @@ export function BackendContainer() {
         setValue={setPageSize}
         width="w-2/3"
       />
-      <FormInput
-        label="Anime URL"
-        placeholder="Anime URL"
-        value={animeUrl}
-        setValue={setAnimeUrl}
-        width="w-2/3"
-      />
-      <FormInput
-        label="Series URL"
-        placeholder="Series URL"
-        value={seriesUrl}
-        setValue={setSeriesUrl}
-        width="w-2/3"
-      />
-      <ButtonElement
+      <Button
         className="items-end"
         onclick={() => saveBackendConfig()}
         disabled={false}

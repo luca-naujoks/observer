@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { LuFolderCheck } from "react-icons/lu";
 import { ISeason } from "../../interfaces";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 
 export function SeasonContainer({
   season,

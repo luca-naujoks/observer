@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IDetailedMedia } from "../../../interfaces";
-import { SearchBar } from "../../../utils/searchBar";
-import { useAppConfigContext } from "../../../utils/appConfigContext";
-import { SearchMediaCard } from "../../ui/SearchMediaCard";
+import { SearchMediaCard } from "../../components/ui/SearchMediaCard";
+import { IDetailedMedia } from "../../interfaces";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
+import { SearchBar } from "../../components/ui/searchBar";
+import { useRouter } from "next/navigation";
 
 export function EditPopup({
   selectedmedia,
@@ -15,6 +16,7 @@ export function EditPopup({
 }) {
   const appConfig = useAppConfigContext();
   const popupRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const [search, setSearch] = useState(selectedmedia.name);
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ export function EditPopup({
     setLoading(false);
     setMedia([]);
     closePopup();
+    router.refresh();
   }
 
   useEffect(() => {

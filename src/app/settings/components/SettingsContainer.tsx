@@ -9,7 +9,7 @@ export function SettingsContainer({
 }) {
   return (
     <div
-      className={`${className} flex flex-col w-full h-[36rem] mb-4 p-4 rounded-md`}
+      className={`${className} flex flex-col w-full h-fit mb-4 p-4 rounded-md`}
     >
       <h1 className="secondHeaddline">{title}</h1>
       {children}

@@ -1,5 +1,5 @@
 import ISO6391 from "iso-639-1";
-import { IDetailedMedia } from "../../../interfaces";
+import { IDetailedMedia } from "../../interfaces";
 export function InfoCard({ media }: { media: IDetailedMedia }) {
   const score = `${(media.vote_average * 10).toFixed(0)}${
     media.vote_average ? "%" : ""

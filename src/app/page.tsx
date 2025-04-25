@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { IMedia } from "./interfaces";
 import { ScrollContainer } from "./components/scrollToRef";
-import { useAppConfigContext } from "./utils/appConfigContext";
+import { useAppConfigContext } from "./utils/useAppConfigContext";
 import { TypeSwitch } from "./components/ui/MediaTypeSwitch";
 import { BackdropMediaCard } from "./components/ui/BackdropMediaCard";
 import { PosterMediaCard } from "./components/ui/PosterMediaCard";

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FormInput } from "../../components/ui/FormInput";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 import { SettingsContainer } from "./SettingsContainer";
-import { ButtonElement } from "./elements.component";
 import { updateConfiguration } from "../../actions/configurationProvider";
 import { ImageUploadElement } from "../../components/ui/FormImageUpload";
+import { Button } from "../../components/ui/Button";
 
 export function FrontendContainer() {
   const appConfig = useAppConfigContext();
@@ -38,7 +38,7 @@ export function FrontendContainer() {
         width="w-2/3"
       />
       <ImageUploadElement width="w-2/3" />
-      <ButtonElement
+      <Button
         className="items-end"
         onclick={() => saveFrontendConfig()}
         disabled={false}

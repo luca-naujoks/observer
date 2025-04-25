@@ -1,4 +1,4 @@
-export function ButtonElement({
+export function Button({
   onclick,
   className,
   disabled,

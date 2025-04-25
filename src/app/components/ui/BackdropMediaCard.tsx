@@ -28,7 +28,7 @@ export function BackdropMediaCard({
           src={!ImageError ? media.backdrop : "/missing-backdrop.webp"}
           alt="backdrop"
           fill={true}
-          objectFit="cover"
+          style={{ objectFit: "cover" }}
           className="rounded-md"
           priority={true}
           onError={() => setImageError(true)}
@@ -50,7 +50,7 @@ export function BackdropMediaCard({
           src={"/missing-backdrop.webp"}
           alt="backdrop"
           fill={true}
-          objectFit="cover"
+          style={{ objectFit: "cover" }}
           className="opacity-50 rounded-md"
           priority={true}
         />
