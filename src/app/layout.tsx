@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import ClientLayout from "./components/clientlayout";
 import { getConfiguration } from "./actions/configurationProvider";
 import SetupPage from "./components/setupPage";
 import Image from "next/image";
+import { AppContextComponent } from "./components/Layout/AppContextComponent";
+import { SidePanelComponent } from "./components/Layout/SidePanelComponent";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -57,7 +58,15 @@ export default async function RootLayout({
           </div>
         )}
         {appConfig.configured ? (
-          <ClientLayout appConfig={appConfig}>{children}</ClientLayout>
+          <div className="flex w-screen h-screen">
+            <SidePanelComponent appConfig={appConfig} />
+            <div className="w-[15%] 2xl:w-[10%]" />
+            <div className="w-[85%] 2xl:w-[90%] p-4 [&::-webkit-scrollbar]:w-0">
+              <AppContextComponent appConfig={appConfig}>
+                {children}
+              </AppContextComponent>
+            </div>
+          </div>
         ) : (
           <SetupPage />
         )}

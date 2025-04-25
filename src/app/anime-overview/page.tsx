@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import { IMedia } from "../interfaces";
-import { SearchBar } from "../utils/searchBar";
+import { SearchBar } from "../components/ui/searchBar";
 import { ScrollContainer } from "../components/scrollToRef";
-import { useAppConfigContext } from "../utils/appConfigContext";
+import { useAppConfigContext } from "../utils/useAppConfigContext";
 import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
 import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 

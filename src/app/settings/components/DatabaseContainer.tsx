@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { SettingsContainer } from "./SettingsContainer";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 
 export function DatabaseContainer() {
   const appConfig = useAppConfigContext();

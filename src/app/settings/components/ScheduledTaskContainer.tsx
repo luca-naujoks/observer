@@ -1,6 +1,6 @@
+import { Button } from "../../components/ui/Button";
 import { SyncJobElement } from "../../components/ui/FormSyncJob";
 import { SettingsContainer } from "./SettingsContainer";
-import { ButtonElement } from "./elements.component";
 
 export function ScheduledTasksContainer() {
   async function saveScheduledTasks() {}
@@ -26,7 +26,7 @@ export function ScheduledTasksContainer() {
         taskName="default-collect-trending-media"
         width="w-2/3"
       />
-      <ButtonElement
+      <Button
         className="items-end"
         onclick={() => saveScheduledTasks()}
         disabled={false}

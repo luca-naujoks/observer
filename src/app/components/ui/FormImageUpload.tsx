@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 import { updateConfiguration } from "../../actions/configurationProvider";
 
 export function ImageUploadElement({ width }: { width?: string }) {

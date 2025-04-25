@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAppConfigContext } from "../../utils/appConfigContext";
+import { useAppConfigContext } from "../../utils/useAppConfigContext";
 
 export function SyncJobElement({
   heading,
