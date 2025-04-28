@@ -23,7 +23,13 @@ export function DatabaseContainer() {
       appConfig.backend_url + "/sqlite/mediacount?type=" + type
     );
 
-    return await request.json();
+    const response = await request.json();
+
+    if (typeof response !== "number") {
+      return 0;
+    } else {
+      return response;
+    }
   }
 
   return (

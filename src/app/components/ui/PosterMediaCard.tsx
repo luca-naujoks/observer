@@ -1,8 +1,8 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IMedia } from "../../interfaces";
 import Image from "next/image";
+import Link from "next/link";
 
 export function PosterMediaCard({
   media,
@@ -14,14 +14,13 @@ export function PosterMediaCard({
   const [isHovered, setIsHovered] = useState(false);
   const [imageErorr, setImageError] = useState(false);
 
-  const router = useRouter();
   if (media) {
     return (
-      <div
+      <Link
         className={`${className} relative rounded-md bg-gray-900/50`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/media?stream_name=${media.stream_name}`)}
+        href={`/media?stream_name=${media.stream_name}`}
       >
         <Image
           src={!imageErorr ? media.poster : "/missing-poster.webp"}
@@ -43,7 +42,7 @@ export function PosterMediaCard({
           </h1>
           <p className="text-lg">{media.type}</p>
         </div>
-      </div>
+      </Link>
     );
   } else {
     return (

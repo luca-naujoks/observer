@@ -5,7 +5,7 @@ export function TypeSwitch({
   selectedType,
   setSelectedType,
 }: {
-  label: string;
+  label?: string;
   selectedType: string;
   setSelectedType: Dispatch<SetStateAction<string>>;
 }) {

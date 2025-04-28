@@ -24,6 +24,7 @@ export function SidePanelComponent({
       <div id="buttons" className="flex flex-col gap-4 px-4 w-full h-full">
         <LinkButton title="Overview" link="/" />
         <LinkButton title="Local" link="/local-overview" />
+        <LinkButton title="Watchlist" link="/watchlist" />
         <LinkButton title="Anime" link="/anime-overview" />
         <LinkButton title="Series" link="/series-overview" />
         <LinkButton

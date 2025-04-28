@@ -21,12 +21,20 @@ export default function AnimeOverview() {
   }, []);
 
   useEffect(() => {
-    function collectSearchResults() {
-      fetch(`${appConfig.backend_url}/media/animes?page=0&search=${search}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setMediaList(data);
-        });
+    async function collectSearchResults() {
+      try {
+        const response = await fetch(
+          `${appConfig.backend_url}/media/animes?page=0&search=${search}`
+        );
+        if (!response.ok) {
+          setMediaList([]);
+          return;
+        }
+        const data = await response.json();
+        setMediaList(data);
+      } catch {
+        setMediaList([]);
+      }
     }
 
     if (search) {
@@ -37,20 +45,36 @@ export default function AnimeOverview() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
-  function collectRandomMedia() {
-    fetch(`${appConfig.backend_url}/random/animes?amount=5`)
-      .then((response) => response.json())
-      .then((data: IMedia[]) => {
-        setRandomMediaMix(data);
-      });
+  async function collectRandomMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/random/animes?amount=5`
+      );
+      if (!response.ok) {
+        setRandomMediaMix([]);
+        return;
+      }
+      const data = await response.json();
+      setRandomMediaMix(data);
+    } catch {
+      setRandomMediaMix([]);
+    }
   }
 
-  function collectInitialMedia() {
-    fetch(`${appConfig.backend_url}/media/animes?&page=0`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMediaList(data);
-      });
+  async function collectInitialMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/media/animes?&page=0`
+      );
+      if (!response.ok) {
+        setMediaList([]);
+        return;
+      }
+      const data = await response.json();
+      setMediaList(data);
+    } catch {
+      setMediaList([]);
+    }
   }
 
   const getMoreMedia = async (page: number): Promise<boolean> => {

@@ -22,20 +22,36 @@ export default function SeriesOverview() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function collectRandomMedia() {
-    fetch(`${appConfig.backend_url}/random/series?amount=5`)
-      .then((response) => response.json())
-      .then((data: IMedia[]) => {
-        setRandomMediaMix(data);
-      });
+  async function collectRandomMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/random/series?amount=5`
+      );
+      if (!response.ok) {
+        setRandomMediaMix([]);
+        return;
+      }
+      const data = await response.json();
+      setRandomMediaMix(data);
+    } catch {
+      setRandomMediaMix([]);
+    }
   }
 
-  function collectInitialMedia() {
-    fetch(`${appConfig.backend_url}/media/series?&page=0`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMediaList(data);
-      });
+  async function collectInitialMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/media/series?&page=0`
+      );
+      if (!response.ok) {
+        setMediaList([]);
+        return;
+      }
+      const data = await response.json();
+      setMediaList(data);
+    } catch {
+      setMediaList([]);
+    }
   }
 
   const getMoreMedia = async (page: number): Promise<boolean> => {
