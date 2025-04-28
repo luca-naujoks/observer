@@ -1,60 +1,69 @@
-# AniSquid Observer
+<p align="center">
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/icon.png" width="120" alt="AniStream Logo" />
 
-Observer is a media library based on the websource from Aniworld and serienstream.
+<h1 align="center">AniStream</h1>
+</p>
 
-## Table of contents
+<table>
+<tr>
+<td>
+  AniStream is a Web Interface for your Local media Library. It leveages the power of the AniStream Backend to manage Anime or Series that are Online and Locally Available while holding on to a slick modern desing.
+</td>
+</tr>
+</table>
 
-- [Überblick](#Overview)
-- [Technologien](#Technologies)
-- [Installation](#Installation-Production)
-- [Nutzung](#Installation-Dev-Environment)
-- [Licence](#Licence)
+## Demo
 
-## Overview
+Want to try out a Demo or just check the style?
+Here is a working but limited [Demo](https://luca-naujoks.de/demo/anistream)
 
-Observer is a media library based of the aviable media of aniworld and serienstream. 
+### Landing Page
 
-## Technologies
-- [Node.js](https://nodejs.org/)
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+The First Page you will face when opening AniStream will be the Overview page with all the currently hot and trending Anime and Series.
 
-## Installation-Production
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/overview.png" alt="AniStream Overview" />
 
-```bash
-# Clone project
-git clone https://github.com/username/repository.git
+### Local Media Overview
 
-# Change into the repository
-cd repository
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/icon.png" width="120" alt="AniStream Local Media" />
 
-# Install prerequisites
-npm install
+### Anime and Series Overview
 
-# Create Production build
-npm run build
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/animeOverview.png" alt="AniStream Anime Overview" />
 
-# Start Production Server
-npm run start
-```
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/seriesOverview.png" alt="AniStream Series Overview" />
 
-## Installation-Dev-Environment
+## Mobile support
+
+The AniStream web application is compatible down to tablet size.
+
+## Project setup
 
 ```bash
-# Clone project
-git clone https://github.com/username/repository.git
+# Clone the Repository
+$ git clone https://github.com/luca-naujoks/observer.git
 
-# Change into the repository
-cd repository
+# Move into project directory
+$ cd observer
 
-# Install prerequisites
-npm install
-
-# Run the dev server
-npm run dev
+# install all dependencies
+$ npm install
 ```
 
-## Licence
-This project is licensed under the MIT licence. Further information can be found in the [LICENSE](./LICENSE) file.
+## Compile and run the project
+
+```bash
+# build the project
+$ npm run build
+
+# start in production mode
+$ npm run start
+```
+
+## Docker Deployment
+
+coming soon
+
+## License
+
+AniStream is [MIT licensed](https://github.com/luca-naujoks/oberser-backend/blob/master/LICENSE).

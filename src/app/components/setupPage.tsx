@@ -1,200 +1,209 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { BorderContainer } from "../utils/borderContainer";
+import Form from "next/form";
+
 import { useEffect, useState } from "react";
-import TextInputField from "./InputTextField.component";
-import { ISetupConfig } from "../interfaces";
+import { FormErrorMessage } from "./ui/FormErrorMessage";
+import { FormInput } from "./ui/FormInput";
+import { FormHeadLine } from "./ui/FormHeadLine";
+import { SubmitButton } from "./ui/FormSubmitButton";
 import { updateConfiguration } from "../actions/configurationProvider";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-interface InputFieldState {
-  value: string;
-  validated: boolean | undefined; // undefined = not validated, true = validated, false = invalid
+interface SetupReturn {
+  fieldData: {
+    TmdbApiKey: string;
+    AnimeDir: string;
+    SeriesDir: string;
+    PageSize: number;
+  };
+  errors: {
+    TmdbApiKey: boolean;
+    AnimeDir: boolean;
+    SeriesDir: boolean;
+    PageSize: boolean;
+  };
+  messages: {
+    TmdbApiKey: string;
+    AnimeDir: string;
+    SeriesDir: string;
+    PageSize: string;
+  };
 }
-
-const defaultInputFieldState: InputFieldState = {
-  value: "",
-  validated: undefined,
-};
 
 export default function SetupPage() {
   const router = useRouter();
+  const [response, setResponse] = useState<SetupReturn>({} as SetupReturn);
 
-  const [disableNext, setDisableNext] = useState<boolean>(true);
+  const [backendURL, setBackendURL] = useState("");
+  const [backendUrlValid, setBackendUrlValid] = useState<boolean>(false);
 
-  const [backendURL, setBackendURL] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [mongodbURL, setMongodbURL] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [rabbitmqURL, setRabbitmqURL] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [rabbitmqQueue, setRabbitmqQueue] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [tmdbApiKey, setTmdbApiKey] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [localAnimeDir, setLocalAnimeDir] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
-  const [localSeriesDir, setLocalSeriesDir] = useState<InputFieldState>(
-    defaultInputFieldState
-  );
+  const [tmdbApiKey, setTmdbApiKey] = useState("");
+  const [animeDir, setAnimeDir] = useState("");
+  const [seriesDir, setSeriesDir] = useState("");
+  const [pageSize, setPageSize] = useState("");
 
-  useEffect(() => {
-    if (
-      backendURL.validated &&
-      mongodbURL.validated &&
-      rabbitmqURL.validated &&
-      rabbitmqQueue.validated &&
-      tmdbApiKey.validated &&
-      localAnimeDir.validated &&
-      localSeriesDir.validated
-    ) {
-      setDisableNext(false);
-    } else {
-      setDisableNext(true);
-    }
-  }, [
-    backendURL.validated,
-    mongodbURL.validated,
-    rabbitmqURL.validated,
-    rabbitmqQueue.validated,
-    tmdbApiKey.validated,
-    localAnimeDir.validated,
-    localSeriesDir.validated,
-  ]);
+  async function submitConfig() {
+    setResponse({} as SetupReturn);
+    async function setupRequest(): Promise<void> {
+      const payload = {
+        TmdbApiKey: tmdbApiKey,
+        AnimeDir: animeDir,
+        SeriesDir: seriesDir,
+        PageSize: parseInt(pageSize),
+      };
 
-  function handleCompleteSetup() {
-    const config: ISetupConfig = {
-      CONFIGURED: true,
-      MONGO_URI: mongodbURL.value,
-      RABBITMQ_URI: rabbitmqURL.value,
-      RABBITMQ_QUEUE: rabbitmqQueue.value,
-      TMDB_API_KEY: tmdbApiKey.value,
-      LOCAL_ANIME_PATH: localAnimeDir.value,
-      LOCAL_SERIES_PATH: localSeriesDir.value,
-    };
-
-    fetch(`${backendURL.value}/setup/configure`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(config),
-    })
-      .then((res) => {
-        if (res.ok) {
-          updateConfiguration({
-            background_image: false,
-            appName: "",
-            appVersion: "",
-            configured: true,
-            backend_url: backendURL.value,
-          });
-          setTimeout(() => {
-            router.refresh();
-          }, 1000);
-        } else {
-          throw new Error("Failed to configure backend");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+      const response = fetch(backendURL + "/setup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
+
+      switch (true) {
+        case (await response).status == 201:
+          await updateConfiguration({
+            appName: "Anisquid Observer",
+            appVersion: "1.0",
+            configured: true,
+            backend_url: backendURL,
+            background_image: false,
+          });
+          router.refresh();
+          break;
+        case (await response).status == 400:
+          setResponse(await (await response).json());
+          return;
+      }
+    }
+    await setupRequest();
   }
 
+  async function validateBackendUrl(): Promise<boolean> {
+    const urlPattern = new RegExp(
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3})|" + // OR ip (v4) address
+        "(localhost))" + // OR localhost
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
+    ); // fragment locator
+    if (!urlPattern.test(backendURL)) {
+      return false;
+    }
+    try {
+      const response = await fetch(backendURL + "/setup/discovery");
+      if (response.status == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch {
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    const timeOut = setTimeout(async () => {
+      setBackendUrlValid(await validateBackendUrl());
+    }, 500);
+    return () => clearTimeout(timeOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [backendURL]);
+
   return (
-    <div className="w-full h-full bg-[url('/assets/setupWallpaper.jpg')] bg-cover bg-center">
-      <div className="flex flex-col items-center justify-center h-full w-full bg-gray-900/75">
-        <BorderContainer className="w-1/3 h-3/6" opacity={75}>
-          <div className="flex flex-col gap-2 p-4">
-            <h1 className="text-3xl font-bold text-center text-gray-300 mb-8">
-              Setup Page
-            </h1>
-
-            <h2 className="secondHeaddline">Frontend Configuration</h2>
-            <TextInputField
-              id="backendUrl"
-              placeholder="Enter Backend URL"
-              className="mb-8 "
-              value={backendURL}
-              setValue={setBackendURL}
-              backendURL={backendURL.value}
-            />
-
-            <h2
-              className={
-                backendURL.value.length === 0
-                  ? "disabledSecondHeaddline"
-                  : "secondHeaddline"
-              }
-            >
-              Backend Configuration
-            </h2>
-            <TextInputField
-              id="mongodbURL"
-              placeholder="Enter MongoDB URI"
-              value={mongodbURL}
-              setValue={setMongodbURL}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
-            <TextInputField
-              id="rabbitmqURL"
-              placeholder="Enter RabbitMQ URI"
-              value={rabbitmqURL}
-              setValue={setRabbitmqURL}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
-            <TextInputField
-              id="rabbitmqQueue"
-              placeholder="Enter Rabbit Queue Name"
-              value={rabbitmqQueue}
-              setValue={setRabbitmqQueue}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
-            />
-            <TextInputField
-              id="tmdbApiKey"
-              placeholder="Enter TMDB API KEY"
+    <div className="fixed flex w-full h-full items-center justify-center">
+      <div className="fixed inset-0 -z-50">
+        <Image
+          src="/assets/wallpaper"
+          alt=""
+          fill={true}
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gray-950/75" />
+      </div>
+      <Form
+        action={submitConfig}
+        className={
+          "flex flex-col justify-between w-1/3 h-fit p-4 bg-gray-300/25 backdrop-blur-sm rounded-md"
+        }
+      >
+        <section className="text-white">
+          <FormHeadLine title="Setup" />
+          <h1 className="text-2xl">Frontend Configuration</h1>
+          <FormInput
+            label="Backend Url"
+            value={backendURL}
+            setValue={setBackendURL}
+            placeholder="http://localhost"
+            required
+          />
+          <section
+            className={
+              backendUrlValid
+                ? "text-white"
+                : "text-gray-400 placeholder:text-gray-400"
+            }
+          >
+            <h1 className="mt-8 text-2xl">Backend Configuration</h1>
+            <FormInput
+              label="TmdbApiKey"
               value={tmdbApiKey}
               setValue={setTmdbApiKey}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
+              placeholder="eyJhbGciOiJIUzI1NiJ9..."
+              error={response?.errors?.TmdbApiKey}
+              errorValue={response?.messages?.TmdbApiKey}
+              defaultValue={response?.fieldData?.TmdbApiKey}
+              disabled={!backendUrlValid}
+              required
             />
-            <TextInputField
-              id="localAnimeDir"
-              placeholder="Enter Anime Directory"
-              value={localAnimeDir}
-              setValue={setLocalAnimeDir}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
+            <FormInput
+              label="Anime Directory"
+              value={animeDir}
+              setValue={setAnimeDir}
+              placeholder="/anime"
+              errorValue={response?.messages?.AnimeDir}
+              defaultValue={response?.fieldData?.AnimeDir}
+              disabled={!backendUrlValid}
+              required
             />
-            <TextInputField
-              id="localSeriesDir"
-              placeholder="Enter Series Directory"
-              value={localSeriesDir}
-              setValue={setLocalSeriesDir}
-              backendURL={backendURL.value}
-              disabled={backendURL.value.length === 0}
+            <FormInput
+              label="Series Directory"
+              value={seriesDir}
+              setValue={setSeriesDir}
+              placeholder="/series"
+              errorValue={response?.messages?.SeriesDir}
+              defaultValue={response?.fieldData?.SeriesDir}
+              disabled={!backendUrlValid}
+              required
             />
-          </div>
-          <div className="flex flex-1 justify-end items-end w-full">
-            <button
-              className="customButton mx-4 my-2"
-              disabled={disableNext}
-              onClick={handleCompleteSetup}
-            >
-              Complete
-            </button>
-          </div>
-        </BorderContainer>
-      </div>
+            <FormInput
+              label="Page Size"
+              value={pageSize}
+              setValue={setPageSize}
+              placeholder="100"
+              errorValue={response?.messages?.PageSize}
+              defaultValue={response?.fieldData?.PageSize}
+              disabled={!backendUrlValid}
+              required
+            />
+          </section>
+          <FormErrorMessage
+            display={
+              response?.errors?.TmdbApiKey ||
+              response?.errors?.AnimeDir ||
+              response?.errors?.SeriesDir ||
+              response?.errors?.PageSize
+            }
+            message="Please Fix the corresponding errors"
+          />
+        </section>
+        <SubmitButton text="Complete Setup" pendingText="Completing Setup..." />
+      </Form>
     </div>
   );
 }

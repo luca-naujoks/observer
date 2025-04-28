@@ -1,72 +1,96 @@
 "use client";
 import { useState, useEffect } from "react";
-import { IBackendMedia } from "../interfaces";
-import { BackdropMediaCard, PosterMediaCard } from "../utils/mediaCards";
-import { SearchBar } from "../utils/searchBar";
-import { ScrollToTop } from "../components/scrollToRef";
-import { useAppConfigContext } from "../utils/appConfigContext";
+import { IMedia } from "../interfaces";
+import { SearchBar } from "../components/ui/searchBar";
+import { ScrollContainer } from "../components/scrollToRef";
+import { useAppConfigContext } from "../utils/useAppConfigContext";
+import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
+import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 
 export default function AnimeOverview() {
   const appConfig = useAppConfigContext();
 
-  const [randomMediaMix, setRandomMediaMix] = useState<IBackendMedia[]>([]); // Store 5 random media items
-  const [mediaList, setMediaList] = useState<IBackendMedia[]>([]); // Store all media items
+  const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
+  const [mediaList, setMediaList] = useState<IMedia[]>([]); // Store all media items
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if(page > 1000) {
-      collectMoreMedia();
-    }
-    
     collectRandomMedia();
     collectInitialMedia();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    function collectSearchResults() {
-      fetch(`${appConfig.backend_url}/media/animes?search=${search}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setMediaList(data);
-        });
+    async function collectSearchResults() {
+      try {
+        const response = await fetch(
+          `${appConfig.backend_url}/media/animes?page=0&search=${search}`
+        );
+        if (!response.ok) {
+          setMediaList([]);
+          return;
+        }
+        const data = await response.json();
+        setMediaList(data);
+      } catch {
+        setMediaList([]);
+      }
     }
 
     if (search) {
       collectSearchResults();
-      setPage(0);
     } else {
       collectInitialMedia();
-      setPage(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
-  function collectRandomMedia() {
-    fetch(`${appConfig.backend_url}/random/animes?amount=5`)
-      .then((response) => response.json())
-      .then((data: IBackendMedia[]) => {
-        setRandomMediaMix(data);
-      });
+  async function collectRandomMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/random/animes?amount=5`
+      );
+      if (!response.ok) {
+        setRandomMediaMix([]);
+        return;
+      }
+      const data = await response.json();
+      setRandomMediaMix(data);
+    } catch {
+      setRandomMediaMix([]);
+    }
   }
 
-  function collectInitialMedia() {
-    fetch(`${appConfig.backend_url}/media/animes?&page=0`)
-      .then((response) => response.json())
-      .then((data) => {
-        setMediaList(data);
-      });
+  async function collectInitialMedia() {
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/media/animes?&page=0`
+      );
+      if (!response.ok) {
+        setMediaList([]);
+        return;
+      }
+      const data = await response.json();
+      setMediaList(data);
+    } catch {
+      setMediaList([]);
+    }
   }
 
-  function collectMoreMedia() {
-    fetch(`${appConfig.backend_url}/media/animes?&page=${page + 1}`)
+  const getMoreMedia = async (page: number): Promise<boolean> => {
+    return fetch(
+      `${appConfig.backend_url}/media/animes?page=${page}&search=${search}`
+    )
       .then((response) => response.json())
-      .then((data) => {
-        setMediaList([...mediaList, ...data]);
-      });
-  }
+      .then((data: IMedia[]) => {
+        setMediaList((prevMediaList) => [...prevMediaList, ...data]);
+        return data.length === 0; // Return true if no data was returned
+      })
+      .catch(() => true); // Return true in case of an error
+  };
 
   return (
-    <ScrollToTop className="w-full h-full">
+    <ScrollContainer className="w-full h-full" endOfPageCallback={getMoreMedia}>
       <div className="flex justify-between">
         <h1 className="text-headLine">Anime Overview</h1>{" "}
         <SearchBar setSearch={setSearch} />
@@ -97,11 +121,11 @@ export default function AnimeOverview() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div id="currentlyTrending" className="grid grid-cols-7 gap-4">
+      <div id="currentlyTrending" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
-          <PosterMediaCard key={index} media={media} className="h-96" />
+          <PosterMediaCard key={index} media={media} />
         ))}
       </div>
-    </ScrollToTop>
+    </ScrollContainer>
   );
 }

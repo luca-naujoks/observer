@@ -1,14 +1,16 @@
 "use server";
 import * as fs from "fs";
-import { IAppConfig } from "../interfaces";
+import { IFrontendConfig } from "../interfaces";
+
+const appConfigPath = "config/appConfig.json";
 
 export async function checkConfig() {
   if (!fs.existsSync("config")) {
     fs.mkdirSync("config");
   }
 
-  if (!fs.existsSync("config/settings.json")) {
-    const defaultConfig: IAppConfig = {
+  if (!fs.existsSync(appConfigPath)) {
+    const defaultConfig: IFrontendConfig = {
       configured: false,
       backend_url: "http://localhost:3000",
       appVersion: (await getPackageProps()).version,
@@ -16,10 +18,7 @@ export async function checkConfig() {
       background_image: false,
     };
 
-    fs.writeFileSync(
-      "config/settings.json",
-      JSON.stringify(defaultConfig, null, 2)
-    );
+    fs.writeFileSync(appConfigPath, JSON.stringify(defaultConfig, null, 2));
   }
 }
 
@@ -31,15 +30,15 @@ async function getPackageProps() {
   return packageJson;
 }
 
-export async function getConfiguration(): Promise<IAppConfig> {
+export async function getConfiguration(): Promise<IFrontendConfig> {
   // Check if the configuration file exists else create it
   await checkConfig();
 
-  const config = JSON.parse(fs.readFileSync("config/settings.json", "utf-8"));
+  const config = JSON.parse(fs.readFileSync(appConfigPath, "utf-8"));
   return await config;
 }
 
-export async function updateConfiguration(config: IAppConfig) {
+export async function updateConfiguration(config: IFrontendConfig) {
   const appVersion =
     config.appVersion.trim().length === 0
       ? (await getPackageProps()).version
@@ -47,7 +46,7 @@ export async function updateConfiguration(config: IAppConfig) {
   const name =
     config.appName.trim().length === 0 ? "AniSquid Observer" : config.appName;
 
-  const configuration: IAppConfig = {
+  const configuration: IFrontendConfig = {
     configured: config.configured,
     backend_url: config.backend_url,
     appVersion: appVersion,
@@ -56,8 +55,5 @@ export async function updateConfiguration(config: IAppConfig) {
   };
 
   await checkConfig();
-  fs.writeFileSync(
-    "config/settings.json",
-    JSON.stringify(configuration, null, 2)
-  );
+  fs.writeFileSync(appConfigPath, JSON.stringify(configuration, null, 2));
 }

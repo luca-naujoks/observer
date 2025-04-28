@@ -51,8 +51,12 @@
     @apply flex justify-between items-center h-fit w-full px-4 py-1 text-lg font-semibold bg-transparent text-gray-400 cursor-default;
   }
 
-  .setup-background {
-    background-image: url(https://placehold.co/300x500);
+  .episode-item {
+    @apply flex justify-between items-center gap-4 p-0.5 m-1 text-gray-400;
+
+    section {
+      @apply flex gap-4;
+    }
   }
 }
 
