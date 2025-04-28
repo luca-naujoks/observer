@@ -5,31 +5,38 @@ import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
 import { TypeSwitch } from "../components/ui/MediaTypeSwitch";
 import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 import { IMedia } from "../interfaces";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppConfigContext } from "../utils/useAppConfigContext";
+import useSWR from "swr";
 
 export default function Watchlist() {
   const appConfig = useAppConfigContext();
-  const [watchList, setWatchList] = useState<IMedia[]>([]);
+  const fetcher = async (url: string): Promise<IMedia[]> => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    return response.json();
+  };
+
+  const { data: watchList, isLoading } = useSWR<IMedia[]>(
+    `${appConfig.backend_url}/watchlist?user=1`,
+    fetcher
+  );
+
   const [selectedType, setSelectedType] = useState<string>("anime");
 
-  useEffect(() => {
-    getWatchlist();
-  }, []);
-
-  async function getWatchlist() {
-    try {
-      const response = await fetch(`${appConfig.backend_url}/watchlist?user=1`);
-      if (!response.ok) {
-        setWatchList([]);
-        return;
-      }
-      const data = await response.json();
-      setWatchList(data);
-    } catch {
-      setWatchList([]);
-    }
+  if (isLoading || !watchList) {
+    return <ScrollContainer></ScrollContainer>;
   }
+
   return (
     <ScrollContainer className="w-full h-full">
       <h1 className="text-headLine">Watchlist</h1>

@@ -27,7 +27,27 @@ export default function MediaComponent() {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch data");
+      return {
+        id: 0,
+        type: "",
+        tmdb_id: 0,
+        stream_name: "",
+        name: "",
+        overview: "",
+        backdrop: "",
+        poster: "",
+        tags: [],
+        seasons: [],
+        status: "",
+
+        vote_average: 0,
+        production_country: "",
+        original_name: "",
+        original_language: "",
+        first_air_date: "",
+        episode_run_time: 0,
+        number_of_episodes: 0,
+      };
     }
 
     return response.json();

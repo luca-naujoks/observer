@@ -7,7 +7,7 @@ export function ScrollContainer({
   className,
   endOfPageCallback,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   endOfPageCallback?: (page: number) => Promise<boolean>; // return false if data was returned. return true if empty array was returned
 }) {
