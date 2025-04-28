@@ -34,34 +34,54 @@ export default function Page() {
   }, [search]);
 
   const getRandomLocalMedia = async () => {
-    fetch(`${appConfig.backend_url}/random/local?amount=5&type=${selectedType}`)
-      .then((response) => response.json())
-      .then((data: IMedia[]) => {
-        setRandomLocalMedia(data);
-      });
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/random/local?amount=5&type=${selectedType}`
+      );
+      if (!response.ok) {
+        setRandomLocalMedia([]);
+        return;
+      }
+      const data = await response.json();
+      setRandomLocalMedia(data);
+    } catch {
+      setRandomLocalMedia([]);
+    }
   };
 
   const getLocalMedia = async (page: number, search: string) => {
-    fetch(
-      `${appConfig.backend_url}/media/local?type=${selectedType}&page=${page}&search=${search}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setLocalMedia(data);
-      });
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/media/local?type=${selectedType}&page=${page}&search=${search}`
+      );
+      if (!response.ok) {
+        setLocalMedia([]);
+        return;
+      }
+      const data = await response.json();
+      setLocalMedia(data);
+    } catch {
+      setLocalMedia([]);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getMoreMedia = async (page: number): Promise<boolean> => {
-    return fetch(
-      `${appConfig.backend_url}/media/local?page=${page}&search=${search}`
-    )
-      .then((response) => response.json())
-      .then((data: IMedia[]) => {
-        setLocalMedia((prevMediaList) => [...prevMediaList, ...data]);
-        return data.length === 0; // Return true if no data was returned
-      })
-      .catch(() => true); // Return true in case of an error
+    try {
+      const response = await fetch(
+        `${appConfig.backend_url}/media/local?page=${page}&search=${search}`
+      );
+      if (!response.ok) {
+        setLocalMedia([]);
+        return true;
+      }
+      const data = await response.json();
+      setLocalMedia((prevMediaList) => [...prevMediaList, ...data]);
+      return data.lenght === 0;
+    } catch {
+      setLocalMedia([]);
+      return true;
+    }
   };
 
   return (

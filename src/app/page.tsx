@@ -17,19 +17,31 @@ export default function Overview() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const getTrendingAnime = async () => {
-    fetch(`${appConfig.backend_url}/trending/animes`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTrendingAnime(data);
-      });
+    try {
+      const response = await fetch(`${appConfig.backend_url}/trending/animes`);
+      if (!response.ok) {
+        setTrendingAnime([]);
+        return;
+      }
+      const data = await response.json();
+      setTrendingAnime(data);
+    } catch {
+      setTrendingAnime([]);
+    }
   };
 
   const getTrendingSeries = async () => {
-    fetch(`${appConfig.backend_url}/trending/series`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTrendingSeries(data);
-      });
+    try {
+      const response = await fetch(`${appConfig.backend_url}/trending/series`);
+      if (!response.ok) {
+        setTrendingSeries([]);
+        return;
+      }
+      const data = await response.json();
+      setTrendingSeries(data);
+    } catch {
+      setTrendingSeries([]);
+    }
   };
 
   useEffect(() => {

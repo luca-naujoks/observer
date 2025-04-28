@@ -12,7 +12,7 @@ export default function Settings() {
   const [navigationTab, setNavigationTab] = useState<string>("Frontend");
 
   return (
-    <>
+    <div>
       <h1 className="text-headLine mb-4 ml-4">Settings</h1>
       <div id="settingsNavigation" className="flex gap-8 ml-4 mb-4">
         <SubNavigationElement
@@ -56,6 +56,6 @@ export default function Settings() {
       <div className={navigationTab == "Audit" ? "block" : "hidden"}>
         <AuditContainer />
       </div>
-    </>
+    </div>
   );
 }

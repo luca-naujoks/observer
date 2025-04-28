@@ -13,7 +13,7 @@ export function ScheduledTasksContainer() {
       />
       <SyncJobElement
         heading="Scan for new Media"
-        taskName="default-scan-for-new-media"
+        taskName="general-media-scan"
         width="w-2/3"
       />
       <SyncJobElement

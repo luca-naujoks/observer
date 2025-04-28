@@ -10,6 +10,7 @@ export interface IMedia {
 
 // Used for Posters and basic Media data
 export interface IDetailedMedia {
+  id: number;
   type: string;
   tmdb_id: number;
   stream_name: string;

@@ -2,7 +2,7 @@ import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { IDetailedMedia } from "../../interfaces";
 import { BorderContainer } from "../../utils/borderContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SearchMediaCard({
   selectedmedia,
@@ -15,18 +15,24 @@ export function SearchMediaCard({
 }) {
   const stream_name = useSearchParams().get("stream_name") || "";
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    console.log(media.poster);
+  }, []);
 
   if (media) {
     return (
       <BorderContainer className={`w-full h-64`}>
         <div className={`flex gap-4 w-full h-full rounded-md`}>
           <Image
-            src={loading ? "/missing-poster.webp" : media.poster}
+            src={loading || imageError ? "/missing-poster.webp" : media.poster}
             priority={true}
             width={400}
             height={600}
             onLoad={() => setLoading(false)}
-            alt=""
+            onError={() => setImageError(true)}
+            alt={media.name}
             className={
               "h-full w-1/6 rounded-md " +
               (loading ? "animate-pulse" : "animate-none")

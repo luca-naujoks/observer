@@ -37,6 +37,8 @@ export default function MediaComponent() {
     `${appConfig.backend_url}/detailed-media?stream_name=${stream_name}`,
     fetcher
   );
+  const [onWatchList, setOnWatchList] = useState(false);
+
   const [backButtonHover, setBackButtonHover] = useState(false);
 
   const [editPopup, setEditPopup] = useState(false);
@@ -57,10 +59,26 @@ export default function MediaComponent() {
     return data;
   };
 
+  const fetchWatchListState = async () => {
+    const response = await fetch(
+      `${appConfig.backend_url}/watchlist/status?user=1&media_id=${media?.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data: boolean = await response.json();
+    setOnWatchList(data);
+  };
+
   useEffect(() => {
-    fetchMediaData();
+    if (media) {
+      fetchWatchListState();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [media]);
 
   const handleBack = () => {
     router.back();
@@ -74,6 +92,14 @@ export default function MediaComponent() {
     setEditPopup(false);
     fetchMediaData();
   };
+
+  function handleWatchlistClick() {
+    const url: string = `${appConfig.backend_url}/watchlist?media_id=${media?.id}&user=1`;
+    fetch(url, {
+      method: onWatchList ? "DELETE" : "POST",
+    });
+    setOnWatchList(!onWatchList);
+  }
 
   if (!media || error) return <p>Loading...</p>;
 
@@ -127,7 +153,12 @@ export default function MediaComponent() {
               )}
             </span>
             <div className="flex flex-col items-end gap-4 mb-8">
-              <button className="customButton w-48">Add to Watchlist</button>
+              <button
+                className="customButton w-48"
+                onClick={() => handleWatchlistClick()}
+              >
+                {onWatchList ? "Remove from Watchlist" : "Add to Watchlist"}
+              </button>
               <button className="customButton" onClick={handleEdit}>
                 Edit Media
               </button>
