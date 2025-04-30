@@ -2,7 +2,7 @@ name: Run Tests on pull
 
 on:
   pull_request:
-    branches: [ $default-branch ]
+    branches: development
 
 jobs:
   
