@@ -1,10 +1,12 @@
 "use server";
 import * as fs from "fs";
 import { IFrontendConfig } from "../interfaces";
+import { unstable_noStore as noStore } from 'next/cache';
 
 const appConfigPath = "config/appConfig.json";
 
 export async function checkConfig() {
+  noStore()
   if (!fs.existsSync("config")) {
     fs.mkdirSync("config");
   }
@@ -31,6 +33,7 @@ async function getPackageProps() {
 }
 
 export async function getConfiguration(): Promise<IFrontendConfig> {
+  noStore()
   // Check if the configuration file exists else create it
   await checkConfig();
 
@@ -39,6 +42,7 @@ export async function getConfiguration(): Promise<IFrontendConfig> {
 }
 
 export async function updateConfiguration(config: IFrontendConfig) {
+  noStore()
   const appVersion =
     config.appVersion.trim().length === 0
       ? (await getPackageProps()).version
