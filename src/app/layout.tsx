@@ -6,6 +6,7 @@ import SetupPage from "./components/setupPage";
 import Image from "next/image";
 import { AppContextComponent } from "./components/Layout/AppContextComponent";
 import { SidePanelComponent } from "./components/Layout/SidePanelComponent";
+import { IFrontendConfig } from "./interfaces";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,12 +28,13 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const appConfig = await getConfiguration();
+  const appConfig: IFrontendConfig = await getConfiguration();
 
   return (
     <html
