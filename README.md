@@ -4,13 +4,13 @@
 <h1 align="center">AniStream</h1>
 </p>
 
-<table>
-<tr>
-<td>
+> [!NOTE]
+> This Project is only working in combination with the [anistream api / observatory](https://github.com/luca-naujoks/AniStream-API)
+
+<p>
   AniStream is a Web Interface for your Local media Library. It leveages the power of the AniStream Backend to manage Anime or Series that are Online and Locally Available while holding on to a slick modern desing.
-</td>
-</tr>
-</table>
+</p>
+
 
 ## Demo
 
@@ -21,7 +21,7 @@ Here is a working but limited [Demo](https://luca-naujoks.de/demo/anistream)
 
 The First Page you will face when opening AniStream will be the Overview page with all the currently hot and trending Anime and Series.
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/overview.png" alt="AniStream Overview" />
+<img src="https://github.com/luca-naujoks/observer/blob/development/public/localOverview.png" alt="AniStream Overview" />
 
 ### Local Media Overview
 
