@@ -8,7 +8,7 @@ import { useAppConfigContext } from "../utils/useAppConfigContext";
 import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
 import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 
-export default function SeriesOverview() {
+export default function Page() {
   const appConfig = useAppConfigContext();
 
   const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
@@ -73,7 +73,8 @@ export default function SeriesOverview() {
         <SearchBar setSearch={setSearch} />
       </div>
       <div
-        id="firstContainer"
+        id="headContainer"
+        data-testid="headContainer"
         className="grid grid-cols-7 grid-rows-2 gap-4 w-full h-3/5"
       >
         <BackdropMediaCard
@@ -98,7 +99,8 @@ export default function SeriesOverview() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div id="seriesContainer" className="grid grid-cols-5 gap-4">
+      <div  id="bodyContainer"
+        data-testid="bodyContainer" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
           <PosterMediaCard key={index} media={media} />
         ))}

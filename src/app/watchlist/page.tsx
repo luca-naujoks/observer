@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useAppConfigContext } from "../utils/useAppConfigContext";
 import useSWR from "swr";
 
-export default function Watchlist() {
+export default function Page() {
   const appConfig = useAppConfigContext();
   const fetcher = async (url: string): Promise<IMedia[]> => {
     const response = await fetch(url, {
@@ -54,7 +54,8 @@ export default function Watchlist() {
         </p>
       </div>
       <div
-        id="firstContainer"
+        id="headContainer"
+        data-testid="headContainer"
         className={
           watchList.length <= 0
             ? "hidden"
@@ -83,7 +84,8 @@ export default function Watchlist() {
         />
       </div>
       <div
-        id="secondContainer"
+        id="bodyContainer"
+        data-testid="bodyContainer"
         className={watchList.length <= 0 ? "hidden" : "w-full h-full"}
       >
         <div className="flex justify-end my-2">
