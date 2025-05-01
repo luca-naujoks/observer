@@ -67,10 +67,10 @@ AniStream is available as a Docker image hosted on the GitHub Container Registry
 
 ```bash
 # Pull the AniStream image from GitHub Container Registry
-$ docker pull ghcr.io/luca-naujoks/observer:latest
+$ docker pull ghcr.io/luca-naujoks/anistream:latest
 
 # Run the container
-$ docker run -d -p 3000:3000 --name anistream ghcr.io/luca-naujoks/observer:latest
+$ docker run -d -p 3000:3000 --name anistream ghcr.io/luca-naujoks/anistream:latest
 ```
 
 ### Docker Compose with AniStream API
@@ -90,7 +90,7 @@ services:
       - /home/anistream-api/configuration: /app/configuration
 
   anistream:
-    image: ghcr.io/luca-naujoks/observer:latest
+    image: ghcr.io/luca-naujoks/anistream:latest
     container_name: anistream
     ports:
       - "3000:3000"
