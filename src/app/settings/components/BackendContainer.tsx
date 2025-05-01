@@ -9,7 +9,9 @@ export function BackendContainer() {
   const appConfig = useAppConfigContext();
   const [tmdbApiKey, setTmdbApiKey] = useState<string>("");
   const [animeDir, setAnimeDir] = useState<string>("");
+  const [animeUrl, setAnimeUrl] = useState<string>("");
   const [seriesDir, setSeriesDir] = useState<string>("");
+  const [seriesUrl, setSeriesUrl] = useState<string>("");
   const [PageSize, setPageSize] = useState<string>("");
 
   useEffect(() => {
@@ -33,7 +35,9 @@ export function BackendContainer() {
       const data = await response.json();
       setTmdbApiKey(data.TmdbApiKey || "");
       setAnimeDir(data.AnimeDir || "");
+      setAnimeUrl(data.AnimeUrl || "");
       setSeriesDir(data.SeriesDir || "");
+      setSeriesUrl(data.SeriesUrl || "");
       setPageSize(data.PageSize?.toString() || "");
     }
   }
@@ -41,7 +45,9 @@ export function BackendContainer() {
     const payload: IBackendConfig = {
       TmdbApiKey: tmdbApiKey,
       AnimeDir: animeDir,
+      AnimeUrl: animeUrl,
       SeriesDir: seriesDir,
+      SeriesUrl: seriesUrl,
       PageSize: parseInt(PageSize),
     };
 
@@ -77,10 +83,24 @@ export function BackendContainer() {
         width="w-2/3"
       />
       <FormInput
+        label="Anime Domain"
+        placeholder="Enter Anime Provider Domain"
+        value={animeUrl}
+        setValue={setAnimeUrl}
+        width="w-2/3"
+      />
+      <FormInput
         label="Series Directory"
         placeholder="Enter Series Directory"
         value={seriesDir}
         setValue={setSeriesDir}
+        width="w-2/3"
+      />
+      <FormInput
+        label="Series Domain"
+        placeholder="Enter Series Provider Domain"
+        value={seriesUrl}
+        setValue={setSeriesUrl}
         width="w-2/3"
       />
       <FormInput
