@@ -62,7 +62,8 @@ export default function Overview() {
     <ScrollContainer className="w-full h-full">
       <h1 className="text-headLine">Overview</h1>
       <div
-        id="firstContainer"
+        id="headContainer"
+        data-testid="headContainer"
         className="grid grid-cols-7 grid-rows-2 gap-4 w-full h-3/5"
       >
         <BackdropMediaCard
@@ -86,7 +87,7 @@ export default function Overview() {
           className="row-span-1 col-span-1"
         />
       </div>
-      <div id="secondContainer" className="w-full h-full">
+      <div data-testid="bodyContainer" id="bodyContainer" className="w-full h-full">
         <div className="flex justify-between my-2">
           <TypeSwitch
             label="Also Trending"

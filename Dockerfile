@@ -54,6 +54,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Create the config directory and set permissions
+RUN mkdir -p /app/config && chown -R nextjs:nodejs /app/config
+
+VOLUME [ "/app/config" ]
+
 USER nextjs
 
 EXPOSE 3000

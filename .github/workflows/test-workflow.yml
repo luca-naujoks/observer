@@ -1,0 +1,32 @@
+name: Run Tests on pull
+
+on:
+  pull_request:
+    branches: development
+
+jobs:
+  
+  tests:
+    runs-on: ubuntu-latest
+    permissions: {}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: npm install
+        run: npm ci
+        
+      - name: check code style
+        run: npm run lint
+
+      - name: run tests
+        run: npm run test
+
+      - name: test build process
+        run: npm run build
+
+

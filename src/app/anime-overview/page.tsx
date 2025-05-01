@@ -7,7 +7,7 @@ import { useAppConfigContext } from "../utils/useAppConfigContext";
 import { BackdropMediaCard } from "../components/ui/BackdropMediaCard";
 import { PosterMediaCard } from "../components/ui/PosterMediaCard";
 
-export default function AnimeOverview() {
+export default function Page() {
   const appConfig = useAppConfigContext();
 
   const [randomMediaMix, setRandomMediaMix] = useState<IMedia[]>([]); // Store 5 random media items
@@ -96,7 +96,8 @@ export default function AnimeOverview() {
         <SearchBar setSearch={setSearch} />
       </div>
       <div
-        id="firstContainer"
+        id="headContainer"
+        data-testid="headContainer"
         className="grid grid-cols-7 grid-rows-2 gap-4 w-full h-3/5"
       >
         <BackdropMediaCard
