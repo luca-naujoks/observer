@@ -34,9 +34,9 @@ export function FormInput({
         disabled={disabled == undefined ? false : disabled}
         className={`${
           width ? width : "w-full"
-        }  px-2 py-1 bg-transparent outline-hidden border-2 border-gray-500 ${
+        }  px-2 py-1 bg-transparent outline-hidden border-2 border-gray-400 ${
           error ? "border-red-500" : ""
-        } disabled:border-gray-400 rounded-md`}
+        } disabled:border-gray-500 rounded-md`}
       />
       <p className="mb-4 text-red-500">{error ? errorValue : ""}</p>
     </>

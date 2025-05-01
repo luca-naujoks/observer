@@ -10,24 +10,31 @@ import { SubmitButton } from "./ui/FormSubmitButton";
 import { updateConfiguration } from "../actions/configurationProvider";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { IBackendConfig } from "../interfaces";
 
 interface SetupReturn {
   fieldData: {
     TmdbApiKey: string;
     AnimeDir: string;
+    AnimeUrl: string;
     SeriesDir: string;
+    SeriesUrl: string;
     PageSize: number;
   };
   errors: {
     TmdbApiKey: boolean;
     AnimeDir: boolean;
+    AnimeUrl: boolean;
     SeriesDir: boolean;
+    SeriesUrl: boolean;
     PageSize: boolean;
   };
   messages: {
     TmdbApiKey: string;
     AnimeDir: string;
+    AnimeUrl: string;
     SeriesDir: string;
+    SeriesUrl: string;
     PageSize: string;
   };
 }
@@ -41,16 +48,20 @@ export default function SetupPage() {
 
   const [tmdbApiKey, setTmdbApiKey] = useState("");
   const [animeDir, setAnimeDir] = useState("");
+  const [animeUrl, setAnimeUrl] = useState("");
   const [seriesDir, setSeriesDir] = useState("");
+  const [seriesUrl, setSeriesUrl] = useState("");
   const [pageSize, setPageSize] = useState("");
 
   async function submitConfig() {
     setResponse({} as SetupReturn);
     async function setupRequest(): Promise<void> {
-      const payload = {
+      const payload: IBackendConfig = {
         TmdbApiKey: tmdbApiKey,
         AnimeDir: animeDir,
+        AnimeUrl: animeUrl,
         SeriesDir: seriesDir,
+        SeriesUrl: seriesUrl,
         PageSize: parseInt(pageSize),
       };
 
@@ -172,12 +183,32 @@ export default function SetupPage() {
               required
             />
             <FormInput
+              label="Anime Domain / Url"
+              value={animeUrl}
+              setValue={setAnimeUrl}
+              placeholder="https://aniworld.to/animes"
+              errorValue={response?.messages?.AnimeUrl}
+              defaultValue={response?.fieldData?.AnimeUrl}
+              disabled={!backendUrlValid}
+              required
+            />
+            <FormInput
               label="Series Directory"
               value={seriesDir}
               setValue={setSeriesDir}
               placeholder="/series"
               errorValue={response?.messages?.SeriesDir}
               defaultValue={response?.fieldData?.SeriesDir}
+              disabled={!backendUrlValid}
+              required
+            />
+            <FormInput
+              label="Series Domain / Url"
+              value={seriesUrl}
+              setValue={setSeriesUrl}
+              placeholder="/series"
+              errorValue={response?.messages?.SeriesUrl}
+              defaultValue={response?.fieldData?.SeriesUrl}
               disabled={!backendUrlValid}
               required
             />

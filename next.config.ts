@@ -8,6 +8,14 @@ module.exports = {
         protocol: "https",
         hostname: "image.tmdb.org",
       },
+      {
+        protocol: "https",
+        hostname: "aniworld.to",
+      },
+      {
+        protocol: "https",
+        hostname: "s.to",
+      },
     ],
   },
 };
