@@ -121,7 +121,7 @@ export default function AnimeOverview() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div id="currentlyTrending" className="grid grid-cols-5 gap-4">
+      <div id="secondContainer" className="grid grid-cols-5 gap-4">
         {mediaList.map((media, index) => (
           <PosterMediaCard key={index} media={media} />
         ))}
