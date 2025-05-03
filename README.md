@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/icon.png" width="120" alt="AniStream Logo" />
+<img src="https://github.com/luca-naujoks/anistream/blob/development/public/icon.png" width="120" alt="AniStream Logo" />
 
 <h1 align="center">AniStream</h1>
 </p>
@@ -20,17 +20,17 @@ Here is a working but limited [Demo](https://luca-naujoks.de/demo/anistream)
 
 The First Page you will face when opening AniStream will be the Overview page with all the currently hot and trending Anime and Series.
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/overview.png" alt="AniStream Overview" />
+<img src="https://github.com/luca-naujoks/anistream/blob/development/public/overview.png" alt="AniStream Overview" />
 
-### Local Media Overview
+### Watchlist
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/watchlistOverview.png" width="120" alt="AniStream Watchlist Media" />
+<img src="https://github.com/luca-naujoks/anistream/blob/development/public/watchlistOverview.png" alt="AniStream Watchlist Media" />
 
 ### Anime and Series Overview
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/animeOverview.png" alt="AniStream Anime Overview" />
+<img src="https://github.com/luca-naujoks/anistream/blob/development/public/animeOverview.png" alt="AniStream Anime Overview" />
 
-<img src="https://github.com/luca-naujoks/observer/blob/development/public/seriesOverview.png" alt="AniStream Series Overview" />
+<img src="https://github.com/luca-naujoks/anistream/blob/development/public/seriesOverview.png" alt="AniStream Series Overview" />
 
 ## Mobile support
 
@@ -40,10 +40,10 @@ The AniStream web application is compatible down to tablet size.
 
 ```bash
 # Clone the Repository
-$ git clone https://github.com/luca-naujoks/observer.git
+$ git clone https://github.com/luca-naujoks/anistream.git
 
 # Move into project directory
-$ cd observer
+$ cd anistream
 
 # install all dependencies
 $ npm install
