@@ -87,7 +87,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - /home/anistream-api/configuration: /app/configuration
+      - /home/anistream-api/configuration:/app/configuration
 
   anistream:
     image: ghcr.io/luca-naujoks/anistream:latest
@@ -95,7 +95,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /home/anistream-api/config: /app/config
+      - /home/anistream-api/config:/app/config
     depends_on:
       - anistream-api
 ```
