@@ -76,7 +76,7 @@ export default function SetupPage() {
       switch (true) {
         case (await response).status == 201:
           await updateConfiguration({
-            appName: "Anisquid Observer",
+            appName: "AniStream",
             appVersion: "1.0",
             configured: true,
             backend_url: backendURL,
