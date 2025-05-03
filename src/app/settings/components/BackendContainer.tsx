@@ -73,49 +73,42 @@ export function BackendContainer() {
         placeholder="Enter TMDB API Key"
         value={tmdbApiKey}
         setValue={setTmdbApiKey}
-        width="w-2/3"
       />
       <FormInput
         label="Anime Directory"
         placeholder="Enter Anime Directory"
         value={animeDir}
         setValue={setAnimeDir}
-        width="w-2/3"
       />
       <FormInput
         label="Anime Domain"
         placeholder="Enter Anime Provider Domain"
         value={animeUrl}
         setValue={setAnimeUrl}
-        width="w-2/3"
       />
       <FormInput
         label="Series Directory"
         placeholder="Enter Series Directory"
         value={seriesDir}
         setValue={setSeriesDir}
-        width="w-2/3"
       />
       <FormInput
         label="Series Domain"
         placeholder="Enter Series Provider Domain"
         value={seriesUrl}
         setValue={setSeriesUrl}
-        width="w-2/3"
       />
       <FormInput
         label="Page Size"
         placeholder="Page Size"
         value={PageSize}
         setValue={setPageSize}
-        width="w-2/3"
       />
       <Button
         className="items-end"
         onclick={() => saveBackendConfig()}
         disabled={false}
         buttonText="Save"
-        width="w-2/3"
       />
     </SettingsContainer>
   );

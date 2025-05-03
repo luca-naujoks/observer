@@ -16,7 +16,7 @@ export function SidePanelComponent({
       <span id="programmName">
         <h1
           className="h-36 text-4xl font-semibold text-center text-wrap cursor-pointer"
-          title={"AniSquid Observer Version " + appConfig.appVersion}
+          title={"AniStream Version " + appConfig.appVersion}
         >
           {appConfig.appName}
         </h1>

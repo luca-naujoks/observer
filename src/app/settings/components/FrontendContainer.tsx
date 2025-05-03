@@ -28,22 +28,19 @@ export function FrontendContainer() {
         placeholder="App Name"
         value={appName}
         setValue={setAppName}
-        width="w-2/3"
       />
       <FormInput
         label="Backend URL"
         placeholder={"Backend URL"}
         value={backend_url}
         setValue={setBackend_url}
-        width="w-2/3"
       />
-      <ImageUploadElement width="w-2/3" />
+      <ImageUploadElement />
       <Button
         className="items-end"
         onclick={() => saveFrontendConfig()}
         disabled={false}
         buttonText="Save"
-        width="w-2/3"
       />
     </SettingsContainer>
   );

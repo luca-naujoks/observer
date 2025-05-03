@@ -1,12 +1,12 @@
 "use server";
 import * as fs from "fs";
 import { IFrontendConfig } from "../interfaces";
-import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_noStore as noStore } from "next/cache";
 
 const appConfigPath = "config/appConfig.json";
 
 export async function checkConfig() {
-  noStore()
+  noStore();
   if (!fs.existsSync("config")) {
     fs.mkdirSync("config");
   }
@@ -16,7 +16,7 @@ export async function checkConfig() {
       configured: false,
       backend_url: "http://localhost:3000",
       appVersion: (await getPackageProps()).version,
-      appName: "AniSquid Observer",
+      appName: "AniStream",
       background_image: false,
     };
 
@@ -33,7 +33,7 @@ async function getPackageProps() {
 }
 
 export async function getConfiguration(): Promise<IFrontendConfig> {
-  noStore()
+  noStore();
   // Check if the configuration file exists else create it
   await checkConfig();
 
@@ -42,13 +42,13 @@ export async function getConfiguration(): Promise<IFrontendConfig> {
 }
 
 export async function updateConfiguration(config: IFrontendConfig) {
-  noStore()
+  noStore();
   const appVersion =
     config.appVersion.trim().length === 0
       ? (await getPackageProps()).version
       : config.appVersion;
   const name =
-    config.appName.trim().length === 0 ? "AniSquid Observer" : config.appName;
+    config.appName.trim().length === 0 ? "AniStream" : config.appName;
 
   const configuration: IFrontendConfig = {
     configured: config.configured,
