@@ -22,6 +22,31 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    async function collectSearchResults() {
+      try {
+        const response = await fetch(
+          `${appConfig.backend_url}/media/series?page=0&search=${search}`
+        );
+        if (!response.ok) {
+          setMediaList([]);
+          return;
+        }
+        const data = await response.json();
+        setMediaList(data);
+      } catch {
+        setMediaList([]);
+      }
+    }
+
+    if (search) {
+      collectSearchResults();
+    } else {
+      collectInitialMedia();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
   async function collectRandomMedia() {
     try {
       const response = await fetch(
@@ -99,8 +124,11 @@ export default function Page() {
         />
       </div>
       <p className="my-4 mb-8 mx-[25%] border border-gray-400" />
-      <div  id="bodyContainer"
-        data-testid="bodyContainer" className="grid grid-cols-5 gap-4">
+      <div
+        id="bodyContainer"
+        data-testid="bodyContainer"
+        className="grid grid-cols-5 gap-4"
+      >
         {mediaList.map((media, index) => (
           <PosterMediaCard key={index} media={media} />
         ))}
