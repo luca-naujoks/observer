@@ -80,7 +80,7 @@ export default function SetupPage() {
             appVersion: "1.0",
             configured: true,
             backend_url: backendURL,
-            background_image: false,
+            background_image: true,
           });
           router.refresh();
           break;

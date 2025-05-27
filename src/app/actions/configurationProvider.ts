@@ -17,7 +17,7 @@ export async function checkConfig() {
       backend_url: "http://localhost:3000",
       appVersion: (await getPackageProps()).version,
       appName: "AniStream",
-      background_image: false,
+      background_image: true,
     };
 
     fs.writeFileSync(appConfigPath, JSON.stringify(defaultConfig, null, 2));
