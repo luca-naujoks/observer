@@ -20,7 +20,7 @@ export function BackdropMediaCard({
         className={`${className} relative rounded-md bg-gray-900/50`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        href={`/media?stream_name=${media.stream_name}`}
+        href={`/media?external_identifier=${media.external_identifier}`}
       >
         <Image
           src={!ImageError ? media.backdrop : "/missing-backdrop.webp"}
@@ -32,8 +32,9 @@ export function BackdropMediaCard({
           onError={() => setImageError(true)}
         />
         <div
-          className={`${isHovered ? "h-full w-full p-4 bg-gray-900/50 rounded-md" : "hidden"
-            } absolute top-0 left-0 transition-all duration-300 ease-in-out`}
+          className={`${
+            isHovered ? "h-full w-full p-4 bg-gray-900/50 rounded-md" : "hidden"
+          } absolute top-0 left-0 transition-all duration-300 ease-in-out`}
         >
           <h1 className="text-3xl font-bold">{media.name}</h1>
           <p className="text-lg">{media.type}</p>

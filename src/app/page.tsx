@@ -87,7 +87,11 @@ export default function Overview() {
           className="row-span-1 col-span-1"
         />
       </div>
-      <div data-testid="bodyContainer" id="bodyContainer" className="w-full h-full">
+      <div
+        data-testid="bodyContainer"
+        id="bodyContainer"
+        className="w-full h-full"
+      >
         <div className="flex justify-between my-2">
           <TypeSwitch
             label="Also Trending"

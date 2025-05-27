@@ -14,7 +14,7 @@ export function PosterMediaCard({
   className?: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [imageErorr, setImageError] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   if (media) {
     return (
@@ -22,10 +22,10 @@ export function PosterMediaCard({
         className={`${className} relative rounded-md bg-gray-900/50`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        href={`/media?stream_name=${media.stream_name}`}
+        href={`/media?external_identifier=${media.external_identifier}`}
       >
         <Image
-          src={!imageErorr ? media.poster : "/missing-poster.webp"}
+          src={!imageError ? media.poster : "/missing-poster.webp"}
           alt="poster"
           width={400}
           height={600}
@@ -34,10 +34,11 @@ export function PosterMediaCard({
           className="w-full h-full rounded-md"
         />
         <div
-          className={`${isHovered
+          className={`${
+            isHovered
               ? "flex flex-col justify-between h-full w-full p-1 bg-gray-900/50 overflow-x-hidden rounded-md"
               : "hidden"
-            } absolute top-0 left-0 transition-all duration-300 ease-in-out`}
+          } absolute top-0 left-0 transition-all duration-300 ease-in-out`}
         >
           <h1 className="w-full h-[80%] overflow-y-hidden text-ellipsis text-3xl font-bold">
             {media.name}

@@ -11,9 +11,10 @@ export function SearchMediaCard({
 }: {
   selectedmedia: IDetailedMedia;
   media: IDetailedMedia;
-  updateMedia: (stream_name: string, tmdb_id: number) => void;
+  updateMedia: (external_identifier: string, tmdb_id: number) => void;
 }) {
-  const stream_name = useSearchParams().get("stream_name") || "";
+  const external_identifier =
+    useSearchParams().get("external_identifier") || "";
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
 
@@ -51,7 +52,7 @@ export function SearchMediaCard({
                   ? "hidden"
                   : "customButton"
               }
-              onClick={() => updateMedia(stream_name, media.tmdb_id)}
+              onClick={() => updateMedia(external_identifier, media.tmdb_id)}
             >
               Select This Medium
             </button>

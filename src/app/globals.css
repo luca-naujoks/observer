@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
 @layer base {
+  button {
+    @apply cursor-pointer;
+  }
+  button:disabled {
+    @apply cursor-default text-gray-500;
+  }
+}
+
+@layer base {
   .tag {
     @apply text-lg text-gray-300 font-semibold cursor-default rounded-md;
   }

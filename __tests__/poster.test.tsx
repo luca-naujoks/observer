@@ -6,7 +6,7 @@ import { IMedia } from "../src/app/interfaces";
 describe("PosterMediaCard", () => {
   const mockMedia: IMedia = {
     id: 1,
-    stream_name: "test-stream",
+    external_identifier: "test-stream",
     poster:
       "https://github.com/luca-naujoks/anistream/blob/development/public/icon.png",
     backdrop:
@@ -55,7 +55,7 @@ describe("PosterMediaCard", () => {
     const linkElement = screen.getByRole("link");
     expect(linkElement).toHaveAttribute(
       "href",
-      `/media?stream_name=${mockMedia.stream_name}`
+      `/media?external_identifier=${mockMedia.external_identifier}`
     );
   });
 });

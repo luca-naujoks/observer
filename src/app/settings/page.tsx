@@ -1,15 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubNavigationElement } from "../components/ui/SubNavigationElement";
 import { FrontendContainer } from "./components/FrontendContainer";
 import { BackendContainer } from "./components/BackendContainer";
 import { AuditContainer } from "./components/AuditContainer";
-import { ScheduledTasksContainer } from "./components/ScheduledTaskContainer";
-import { InfoBoxRow } from "../components/infoBox/infoBoxRow";
+import { ProviderContainer } from "./components/ProviderContainer";
+import { InfoBoxRow } from "../components/ui/infoBox/infoBoxRow";
+import useSWR from "swr";
+import { useAppConfigContext } from "../utils/useAppConfigContext";
+import { useRouter, useSearchParams } from "next/navigation";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Settings() {
-  const [navigationTab, setNavigationTab] = useState<string>("Frontend");
+  const appConfig = useAppConfigContext();
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const getParams = (key: string, defaultValue: string) => {
+    return searchParams.get(key) || defaultValue;
+  };
+
+  const [navigationTab, setNavigationTab] = useState<string>(
+    getParams("tab", "Frontend")
+  );
+
+  const { data: totalAnime, isLoading: totalAnimeLoading } = useSWR(
+    `${appConfig.backend_url}/telemetrics/anime`,
+    fetcher
+  );
+  const { data: totalSeries, isLoading: totalSeriesLoading } = useSWR(
+    `${appConfig.backend_url}/telemetrics/series`,
+    fetcher
+  );
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("tab", navigationTab);
+    history.pushState(null, "", `?${params.toString()}`);
+  }, [navigationTab, router]);
 
   return (
     <div>
@@ -26,7 +57,7 @@ export default function Settings() {
           setNavigationTab={setNavigationTab}
         />
         <SubNavigationElement
-          title="Scheduled Tasks"
+          title="Providers"
           navigationTab={navigationTab}
           setNavigationTab={setNavigationTab}
         />
@@ -43,23 +74,54 @@ export default function Settings() {
               return <FrontendContainer />;
             case "Backend":
               return <BackendContainer />;
-            case "Scheduled Tasks":
-              return <ScheduledTasksContainer />;
+            case "Providers":
+              return <ProviderContainer />;
             case "Audit":
               return <AuditContainer />;
             default:
               return <FrontendContainer />;
           }
         })()}
-        <div className="flex flex-col w-1/3 h-fit mt-[3.25rem] gap-0.5 border-gray-500 border rounded-md">
-          <InfoBoxRow heading="Total Animes" value="212" />
-          <InfoBoxRow heading="Animes on Watchlist" value="212" />
-          <InfoBoxRow heading="Animes in local storage" value="212" />
-          <InfoBoxRow heading="Total Series" value="212" />
-          <InfoBoxRow heading="Series on Watchlist" value="212" />
-          <InfoBoxRow heading="Series in local storage" value="212" />
-        </div>
+        <InfoBox>
+          <InfoBoxRow
+            heading="Total Animes"
+            value={totalAnimeLoading ? 0 : totalAnime}
+          />
+          <InfoBoxRow
+            heading="Animes on Watchlist"
+            value={totalAnimeLoading ? 0 : totalAnime}
+          />
+          <InfoBoxRow
+            heading="Animes in local storage"
+            value={totalAnimeLoading ? 0 : totalAnime}
+          />
+          <InfoBoxRow
+            heading="Total Series"
+            value={totalSeriesLoading ? 0 : totalSeries}
+          />
+          <InfoBoxRow
+            heading="Series on Watchlist"
+            value={totalSeriesLoading ? 0 : totalSeries}
+          />
+          <InfoBoxRow
+            heading="Series in local storage"
+            value={totalSeriesLoading ? 0 : totalSeries}
+            className="border-b-0"
+          />
+        </InfoBox>
       </div>
+    </div>
+  );
+}
+
+function InfoBox({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <div className="flex flex-col w-1/3 h-fit mt-[3.25rem] gap-0.5 border-gray-500 border rounded-md">
+      {children}
     </div>
   );
 }

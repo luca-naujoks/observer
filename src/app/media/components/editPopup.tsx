@@ -22,22 +22,31 @@ export function EditPopup({
   const [loading, setLoading] = useState(false);
   const [media, setMedia] = useState<IDetailedMedia[]>([]);
 
-  async function updateMedia(stream_name: string, tmdb_id: number) {
+  async function updateMedia(external_identifier: string, tmdb_id: number) {
     setLoading(true);
-    await fetch(
-      appConfig.backend_url +
-        `/detailed-media/update-tmdb?stream_name=${stream_name}&tmdb_id=${tmdb_id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try {
+      const response = await fetch(
+        appConfig.backend_url +
+          `/detailed-media/update-tmdb?external_identifier=${external_identifier}&tmdb_id=${tmdb_id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`Failed to update media: ${response.statusText}`);
       }
-    );
-    setLoading(false);
-    setMedia([]);
-    closePopup();
-    router.refresh();
+      setMedia([]);
+      closePopup();
+      router.refresh();
+    } catch (error) {
+      console.error("Error updating media:", error);
+      // show an error message
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -57,10 +66,14 @@ export function EditPopup({
   }, [popupRef, closePopup]);
 
   useEffect(() => {
-    document.addEventListener("keydown", (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") closePopup();
-    });
-  });
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [closePopup]);
 
   useEffect(() => {
     async function fetchData() {

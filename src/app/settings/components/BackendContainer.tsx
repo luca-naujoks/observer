@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FormInput } from "../../components/ui/FormInput";
+import { FormInput } from "../../components/Form/FormInput";
 import { IBackendConfig } from "../../interfaces";
 import { useAppConfigContext } from "../../utils/useAppConfigContext";
 import { SettingsContainer } from "./SettingsContainer";
@@ -9,9 +9,7 @@ export function BackendContainer() {
   const appConfig = useAppConfigContext();
   const [tmdbApiKey, setTmdbApiKey] = useState<string>("");
   const [animeDir, setAnimeDir] = useState<string>("");
-  const [animeUrl, setAnimeUrl] = useState<string>("");
   const [seriesDir, setSeriesDir] = useState<string>("");
-  const [seriesUrl, setSeriesUrl] = useState<string>("");
   const [PageSize, setPageSize] = useState<string>("");
 
   useEffect(() => {
@@ -35,9 +33,7 @@ export function BackendContainer() {
       const data = await response.json();
       setTmdbApiKey(data.TmdbApiKey || "");
       setAnimeDir(data.AnimeDir || "");
-      setAnimeUrl(data.AnimeUrl || "");
       setSeriesDir(data.SeriesDir || "");
-      setSeriesUrl(data.SeriesUrl || "");
       setPageSize(data.PageSize?.toString() || "");
     }
   }
@@ -45,9 +41,7 @@ export function BackendContainer() {
     const payload: IBackendConfig = {
       TmdbApiKey: tmdbApiKey,
       AnimeDir: animeDir,
-      AnimeUrl: animeUrl,
       SeriesDir: seriesDir,
-      SeriesUrl: seriesUrl,
       PageSize: parseInt(PageSize),
     };
 
@@ -61,6 +55,7 @@ export function BackendContainer() {
     switch (true) {
       case request.status == 201:
         getBackendConfig();
+        break;
       case request.status == 400:
         return;
     }
@@ -81,22 +76,10 @@ export function BackendContainer() {
         setValue={setAnimeDir}
       />
       <FormInput
-        label="Anime Domain"
-        placeholder="Enter Anime Provider Domain"
-        value={animeUrl}
-        setValue={setAnimeUrl}
-      />
-      <FormInput
         label="Series Directory"
         placeholder="Enter Series Directory"
         value={seriesDir}
         setValue={setSeriesDir}
-      />
-      <FormInput
-        label="Series Domain"
-        placeholder="Enter Series Provider Domain"
-        value={seriesUrl}
-        setValue={setSeriesUrl}
       />
       <FormInput
         label="Page Size"

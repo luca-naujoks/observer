@@ -1,7 +1,7 @@
 export interface IMedia {
   id: number;
   type: string;
-  stream_name: string;
+  external_identifier: string;
   name: string;
   poster: string;
   backdrop: string;
@@ -13,7 +13,7 @@ export interface IDetailedMedia {
   id: number;
   type: string;
   tmdb_id: number;
-  stream_name: string;
+  external_identifier: string;
   name: string;
   tags: { id: number; name: string }[];
   poster: string;
@@ -56,13 +56,14 @@ export interface IFrontendConfig {
 export interface IBackendConfig {
   TmdbApiKey: string;
   AnimeDir: string;
-  AnimeUrl: string;
   SeriesDir: string;
-  SeriesUrl: string;
   PageSize: number;
 }
 
-export interface IScheduledTask {
-  taskName: string;
+export interface IProvider {
+  name: string;
+  variables: string[];
   schedule: string;
+  file_path: string;
+  enabled: boolean;
 }

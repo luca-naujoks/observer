@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { FormInput } from "../../components/ui/FormInput";
+import { FormInput } from "../../components/Form/FormInput";
 import { useAppConfigContext } from "../../utils/useAppConfigContext";
 import { SettingsContainer } from "./SettingsContainer";
 import { updateConfiguration } from "../../actions/configurationProvider";
-import { ImageUploadElement } from "../../components/ui/FormImageUpload";
 import { Button } from "../../components/ui/Button";
 
 export function FrontendContainer() {
@@ -14,34 +13,34 @@ export function FrontendContainer() {
   async function saveFrontendConfig() {
     updateConfiguration({
       ...appConfig,
-      appName: appConfig.appName,
-      backend_url:
-        document.getElementById("Backend URL")?.getAttribute("value") ||
-        appConfig.backend_url,
+      appName: appName,
+      backend_url: backend_url,
     });
   }
 
   return (
-    <SettingsContainer title="Frontend Configuration">
-      <FormInput
-        label="App Name"
-        placeholder="App Name"
-        value={appName}
-        setValue={setAppName}
-      />
-      <FormInput
-        label="Backend URL"
-        placeholder={"Backend URL"}
-        value={backend_url}
-        setValue={setBackend_url}
-      />
-      <ImageUploadElement />
-      <Button
-        className="items-end"
-        onclick={() => saveFrontendConfig()}
-        disabled={false}
-        buttonText="Save"
-      />
-    </SettingsContainer>
+    <div className="flex flex-col w-2/3">
+      <SettingsContainer title="Frontend Configuration">
+        <FormInput
+          label="App Name"
+          placeholder="App Name"
+          value={appName}
+          setValue={setAppName}
+        />
+        <FormInput
+          label="Backend URL"
+          placeholder={"Backend URL"}
+          value={backend_url}
+          setValue={setBackend_url}
+        />
+        <Button
+          className="items-end"
+          onclick={() => saveFrontendConfig()}
+          disabled={false}
+          buttonText="Save"
+        />
+      </SettingsContainer>
+      <SettingsContainer title="Link elements"></SettingsContainer>
+    </div>
   );
 }

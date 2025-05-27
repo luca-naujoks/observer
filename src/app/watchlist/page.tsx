@@ -11,6 +11,7 @@ import useSWR from "swr";
 
 export default function Page() {
   const appConfig = useAppConfigContext();
+
   const fetcher = async (url: string): Promise<IMedia[]> => {
     const response = await fetch(url, {
       method: "GET",

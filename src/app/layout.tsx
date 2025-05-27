@@ -28,7 +28,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -46,19 +45,15 @@ export default async function RootLayout({
         id="body"
         className={`flex h-screen w-full text-gray-300  ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {appConfig.background_image && (
-          <div className="fixed inset-0 -z-50">
-            <Image
-              src="/assets/wallpaper"
-              alt=""
-              fill={true}
-              className="object-cover bg-no-repeat"
-              priority={true}
-              unoptimized={true}
-            />
-            <div className="absolute inset-0 bg-gray-950/75" />
-          </div>
-        )}
+        <div className="fixed inset-0 -z-50">
+          <Image
+            src="/assets/wallpaper"
+            alt=""
+            fill={true}
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gray-950/75" />
+        </div>
         {appConfig.configured ? (
           <div className="flex w-screen h-screen">
             <SidePanelComponent appConfig={appConfig} />

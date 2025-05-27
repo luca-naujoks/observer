@@ -24,7 +24,8 @@ export default function MediaComponent() {
 function MediaComponentContent() {
   const router = useRouter();
   const appConfig = useAppConfigContext();
-  const stream_name = useSearchParams().get("stream_name") || "";
+  const external_identifier =
+    useSearchParams().get("external_identifier") || "";
 
   const fetcher = async (url: string): Promise<IDetailedMedia> => {
     const response = await fetch(url, {
@@ -39,7 +40,7 @@ function MediaComponentContent() {
         id: 0,
         type: "",
         tmdb_id: 0,
-        stream_name: "",
+        external_identifier: "",
         name: "",
         overview: "",
         backdrop: "",
@@ -62,7 +63,7 @@ function MediaComponentContent() {
   };
 
   const { data: media, error } = useSWR<IDetailedMedia>(
-    `${appConfig.backend_url}/detailed-media?stream_name=${stream_name}`,
+    `${appConfig.backend_url}/detailed-media?external_identifier=${external_identifier}`,
     fetcher
   );
 
@@ -76,7 +77,7 @@ function MediaComponentContent() {
 
   const fetchMediaData = async () => {
     const response = await fetch(
-      `${appConfig.backend_url}/detailed-media?stream_name=${stream_name}`,
+      `${appConfig.backend_url}/detailed-media?external_identifier=${external_identifier}`,
       {
         method: "GET",
         headers: {
@@ -165,7 +166,6 @@ function MediaComponentContent() {
                 <h1 className="text-5xl font-bold">{media.name}</h1>
                 <Tags tags={media.tags} />
               </div>
-              <WatchOnButton stream_name={stream_name} mediaType={media.type} />
             </div>
             <div className="flex flex-col justify-between items-end">
               <span
@@ -187,7 +187,7 @@ function MediaComponentContent() {
               </span>
               <div className="flex flex-col items-end gap-4 mb-8">
                 <button
-                  className="customButton w-48"
+                  className=" w-48"
                   onClick={() => handleWatchlistClick()}
                 >
                   {onWatchList ? "Remove from Watchlist" : "Add to Watchlist"}
@@ -220,47 +220,4 @@ function MediaComponentContent() {
       </div>
     </Suspense>
   );
-}
-
-function WatchOnButton({
-  stream_name,
-  mediaType,
-}: {
-  stream_name: string;
-  mediaType: string;
-}) {
-  switch (mediaType) {
-    case "anime":
-      return (
-        <Image
-          src="https://aniworld.to/public/svg/aniworld-anicloud-anime-stream-logo.svg"
-          alt="Aniworld"
-          width={150}
-          height={50}
-          style={{ backgroundColor: "#637cf9" }}
-          className="h-10 w-auto hover:scale-105 cursor-pointer transition-transform ease-in-out duration-300 rounded-md"
-          onClick={() =>
-            window.open(
-              `https://aniworld.to/anime/stream/${stream_name}`,
-              "_blank"
-            )
-          }
-        />
-      );
-    case "serie":
-      return (
-        <Image
-          src="https://s.to/public/img/logo-sto-serienstream-sx-to-serien-online-streaming-vod.svg"
-          alt="SerienStream"
-          width={150}
-          height={50}
-          className="h-10 w-auto hover:scale-105 cursor-pointer transition-transform ease-in-out duration-300 rounded-md"
-          onClick={() =>
-            window.open(`https://s.to/serie/stream/${stream_name}`, "_blank")
-          }
-        />
-      );
-    default:
-      return <h1></h1>;
-  }
 }
